@@ -81,44 +81,33 @@ window.addEventListener('scroll', () => {
 
 window.addEventListener('load', updateActiveNav);
 
-// Intersection Observer for project card animations
+// Intersection Observer for reveal animations
 const observerOptions = {
-    threshold: 0.1,
+    threshold: 0.12,
     rootMargin: '0px 0px -80px 0px'
 };
 
-const observer = new IntersectionObserver((entries) => {
+const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.classList.add('visible');
-            observer.unobserve(entry.target);
+            revealObserver.unobserve(entry.target);
         }
     });
 }, observerOptions);
 
-// Apply initial state and observe project cards
+// Apply initial state and observe reveal elements
 document.addEventListener('DOMContentLoaded', () => {
-    const projectCards = document.querySelectorAll('.project-card');
-    
-    projectCards.forEach((card, index) => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(30px)';
-        card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
-        observer.observe(card);
+    const revealItems = document.querySelectorAll('.reveal, .project-card');
+
+    revealItems.forEach((item, index) => {
+        const delay = item.classList.contains('project-card') ? index * 0.08 : 0;
+        item.style.transitionDelay = `${delay}s`;
+        revealObserver.observe(item);
     });
 
-    // Add visible class handler
-    const style = document.createElement('style');
-    style.textContent = `
-        .project-card.visible {
-            opacity: 1 !important;
-            transform: translateY(0) !important;
-        }
-    `;
-    document.head.appendChild(style);
-    
     // Add lazy loading for GIFs (pause until in view)
-    const gifImages = document.querySelectorAll('img[src$=".gif"]');
+    const gifImages = document.querySelectorAll('img[src$=\".gif\"]');
     const gifObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -131,16 +120,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }, { threshold: 0.1 });
-    
+
     gifImages.forEach(img => gifObserver.observe(img));
 });
 
 // Reduce motion preference
 if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    document.querySelectorAll('.project-card').forEach(card => {
-        card.style.opacity = '1';
-        card.style.transform = 'none';
-        card.style.transition = 'none';
+    document.querySelectorAll('.reveal, .project-card').forEach(item => {
+        item.classList.add('visible');
+        item.style.transition = 'none';
+        item.style.transitionDelay = '0s';
     });
 }
 
@@ -153,3 +142,22 @@ navToggle?.addEventListener('keydown', (e) => {
         navToggle.focus();
     }
 });
+
+// Subtle parallax for hero background
+const heroBg = document.querySelector('.hero-bg');
+let heroTicking = false;
+
+function updateHeroParallax() {
+    if (!heroBg) return;
+    const scrollY = window.scrollY || 0;
+    heroBg.style.transform = `translate3d(0, ${scrollY * 0.2}px, 0)`;
+    heroTicking = false;
+}
+
+window.addEventListener('scroll', () => {
+    if (!heroBg || heroTicking) return;
+    heroTicking = true;
+    window.requestAnimationFrame(updateHeroParallax);
+});
+
+window.addEventListener('load', updateHeroParallax);
