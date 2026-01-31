@@ -100,7 +100,7 @@ img {
 }
 
 .nav-logo-img {
-    height: 36px;
+    height: 28px;
     width: auto;
     transition: var(--transition);
     filter: drop-shadow(0 6px 12px rgba(2, 8, 23, 0.5));
@@ -213,7 +213,8 @@ img {
 }
 
 .hero-logo-wrap {
-    padding: 2rem 3rem;
+    padding: 1.5rem 2rem;
+    max-width: 280px;
     border-radius: 24px;
     background: linear-gradient(135deg, rgba(15, 23, 42, 0.7), rgba(30, 41, 59, 0.4));
     box-shadow:
