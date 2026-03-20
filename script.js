@@ -192,7 +192,6 @@ async function loadProjects() {
 
 // Initialize projects
 document.addEventListener('DOMContentLoaded', loadProjects);
-
 // Keyboard navigation for mobile menu
 navToggle?.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && navMenu.classList.contains('active')) {
