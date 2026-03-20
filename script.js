@@ -133,6 +133,66 @@ if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     });
 }
 
+// Load projects from JSON
+async function loadProjects() {
+    const container = document.getElementById('projects-container');
+    if (!container) return;
+
+    try {
+        const response = await fetch('projects.json');
+        const projects = await response.json();
+
+        container.innerHTML = projects.map((project, index) => {
+            let imagesHtml = '';
+            if (project.placeholder) {
+                imagesHtml = `<div class="project-image"><div class="opad-placeholder"><span class="opad-placeholder-icon">${project.placeholder.icon}</span><span class="opad-placeholder-text">${project.placeholder.text}</span></div></div>`;
+            } else if (project.id === 'spotting-grid' && project.images && project.images.length >= 3) {
+                imagesHtml = `
+                    <div class="grid-top">
+                        <img src="${project.images[0]}" alt="Project image" class="grid-image" loading="lazy">
+                        <img src="${project.images[1]}" alt="Project image" class="grid-image" loading="lazy">
+                    </div>
+                    <img src="${project.images[2]}" alt="Project image" class="grid-explainer" loading="lazy">
+                `;
+                imagesHtml = `<div class="project-image project-image-triple">${imagesHtml}</div>`;
+            } else if (project.images && project.images.length > 0) {
+                imagesHtml = `<div class="project-image"><img src="${project.images[0]}" alt="${project.title}" loading="lazy"></div>`;
+            }
+
+            const tagsHtml = project.tags ? project.tags.map(tag => `<span class="tag">${tag}</span>`).join('') : '';
+            const noteHtml = project.note ? `<p class="project-note">${project.note}</p>` : '';
+
+            return `
+                <article class="project-card" style="transition-delay: ${index * 0.08}s">
+                    ${imagesHtml}
+                    <div class="project-content">
+                        <h3 class="project-title">${project.title}</h3>
+                        <p class="project-description">${project.description}</p>
+                        ${project.longDescription ? `<p class="project-description">${project.longDescription}</p>` : ''}
+                        <div class="project-tags">${tagsHtml}</div>
+                        <div class="project-links">
+                            <a href="${project.url}" target="_blank" rel="noopener noreferrer" class="project-link">View Project →</a>
+                            ${noteHtml}
+                        </div>
+                    </div>
+                </article>
+            `;
+        }).join('');
+
+        // Re-observe for reveal animation
+        container.querySelectorAll('.project-card').forEach((item, idx) => {
+            item.style.transitionDelay = `${idx * 0.08}s`;
+            revealObserver.observe(item);
+        });
+
+    } catch (error) {
+        console.error('Failed to load projects:', error);
+    }
+}
+
+// Initialize projects
+document.addEventListener('DOMContentLoaded', loadProjects);
+
 // Keyboard navigation for mobile menu
 navToggle?.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && navMenu.classList.contains('active')) {

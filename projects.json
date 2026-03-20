@@ -34,7 +34,7 @@
     "longDescription": "Automatically extracts plays from email, converts GIF animations to optimized MP4 video, uploads media to a global CDN, and deploys updates to a responsive web interface. Currently contains 300+ plays spanning NFL and college football.",
     "tags": ["Football Film", "Play Database", "Automation"],
     "url": "https://one-play-a-day-app.vercel.app",
-    "images": ["images/opad.gif"]
+    "placeholder": { "icon": "🏈", "text": "300+ Searchable Plays" }
   },
   {
     "id": "cbb-data-generator",
