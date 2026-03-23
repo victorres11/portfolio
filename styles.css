@@ -93,10 +93,10 @@ img {
     position: fixed;
     top: 0;
     width: 100%;
-    background-color: rgba(243, 249, 255, 0.84);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(35, 76, 112, 0.16);
+    background-color: rgba(243, 249, 255, 0.38);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(35, 76, 112, 0.18);
     z-index: 1000;
 }
 
