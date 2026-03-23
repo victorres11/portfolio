@@ -146,15 +146,6 @@ async function loadProjects() {
             let imagesHtml = '';
             if (project.placeholder) {
                 imagesHtml = `<div class="project-image"><div class="opad-placeholder"><span class="opad-placeholder-icon">${project.placeholder.icon}</span><span class="opad-placeholder-text">${project.placeholder.text}</span></div></div>`;
-            } else if (project.id === 'spotting-grid' && project.images && project.images.length >= 3) {
-                imagesHtml = `
-                    <div class="grid-top">
-                        <img src="${project.images[0]}" alt="Project image" class="grid-image" loading="lazy">
-                        <img src="${project.images[1]}" alt="Project image" class="grid-image" loading="lazy">
-                    </div>
-                    <img src="${project.images[2]}" alt="Project image" class="grid-explainer" loading="lazy">
-                `;
-                imagesHtml = `<div class="project-image project-image-triple">${imagesHtml}</div>`;
             } else if (project.images && project.images.length > 0) {
                 imagesHtml = `<div class="project-image"><img src="${project.images[0]}" alt="${project.title}" loading="lazy"></div>`;
             }

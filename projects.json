@@ -16,7 +16,7 @@
     "tags": ["Football Analytics", "Matchup Analysis", "Data Viz"],
     "url": "https://victorres11.github.io/football-data-adhoc/indiana_purdue_analysis_app.html",
     "note": "Best viewed on desktop or tablet",
-    "images": ["images/matchup-analytics.gif"]
+    "images": ["images/matchup-analytics-thumb.jpg"]
   },
   {
     "id": "snap-counts",
@@ -25,7 +25,7 @@
     "longDescription": "Ingests PFF snap count data and visually illustrates each position group's participation throughout the season. Play-by-play commentators can quickly understand how injuries, depth changes, and other factors have impacted their teams.",
     "tags": ["Player Analytics", "Snap Counts", "Participation Data"],
     "url": "https://victorres11.github.io/matchup-analytics/pages/purdue.html",
-    "images": ["images/snap-counts.gif"]
+    "images": ["images/snap-counts-thumb.jpg"]
   },
   {
     "id": "one-play-a-day",
@@ -43,6 +43,6 @@
     "longDescription": "A full self-service application that allows broadcasters to generate a data report for any NCAA team. Fetches from multiple data sources so users get all their data in one place—instead of clicking through 10+ different domains.",
     "tags": ["Data Integration", "Sports Analytics", "Automation"],
     "url": "https://cbb-data-generator.onrender.com/",
-    "images": ["images/bball-data-generator.gif"]
+    "images": ["images/bball-data-generator-thumb.jpg"]
   }
 ]
