@@ -167,8 +167,8 @@ async function loadProjects() {
                     ${imagesHtml}
                     <div class="project-content">
                         <h3 class="project-title">${project.title}</h3>
-                        <p class="project-description">${project.description}</p>
-                        ${project.longDescription ? `<p class="project-description">${project.longDescription}</p>` : ''}
+                        <p class="project-description project-description--summary">${project.description}</p>
+                        ${project.longDescription ? `<p class="project-description project-description--detail">${project.longDescription}</p>` : ''}
                         <div class="project-tags">${tagsHtml}</div>
                         <div class="project-links">
                             <a href="${project.url}" target="_blank" rel="noopener noreferrer" class="project-link">View Project →</a>
