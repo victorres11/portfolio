@@ -5,7 +5,8 @@ function generatePlaybook(canvas) {
   const dpr = window.devicePixelRatio || 1;
   let w;
   let h;
-  const accent = [30, 58, 95];
+  const accent = [26, 101, 158];
+  const glow = [84, 166, 214];
   const plays = [];
   let lastPlayIdx = -1;
 
@@ -24,7 +25,7 @@ function generatePlaybook(canvas) {
   }
 
   function createPlay() {
-    const scale = Math.min(w, h) * 0.28;
+    const scale = Math.min(w, h) * 0.33;
     const minDist = scale * 0.85;
 
     // Find a position that doesn't collide with existing plays
@@ -32,8 +33,8 @@ function generatePlaybook(canvas) {
     let cy;
     let attempts = 0;
     do {
-      cx = w * 0.15 + Math.random() * w * 0.7;
-      cy = h * 0.35 + Math.random() * h * 0.35;
+      cx = w * 0.08 + Math.random() * w * 0.84;
+      cy = h * 0.2 + Math.random() * h * 0.62;
       attempts++;
     } while (
       attempts < 30
@@ -77,47 +78,60 @@ function generatePlaybook(canvas) {
       cy,
       players,
       birth: performance.now(),
-      lifespan: 6000 + Math.random() * 3000,
-      drawSpeed: 0.4 + Math.random() * 0.3,
+      lifespan: 7600 + Math.random() * 2800,
+      drawSpeed: 0.45 + Math.random() * 0.35,
+      maxAlpha: 0.42 + Math.random() * 0.14,
     };
   }
 
-  function drawX(x, y, size, alpha) {
-    ctx.save();
+  function setStroke(alpha, width) {
     ctx.strokeStyle = `rgba(${accent[0]},${accent[1]},${accent[2]},${alpha})`;
-    ctx.lineWidth = 1.2;
-    ctx.beginPath();
-    ctx.moveTo(x - size, y - size);
-    ctx.lineTo(x + size, y + size);
-    ctx.moveTo(x + size, y - size);
-    ctx.lineTo(x - size, y + size);
+    ctx.lineWidth = width;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.shadowColor = `rgba(${glow[0]},${glow[1]},${glow[2]},${Math.min(alpha * 0.7, 0.26)})`;
+    ctx.shadowBlur = 6;
+  }
+
+  function drawLayeredPath(drawFn, alpha, width) {
+    ctx.save();
+    ctx.strokeStyle = `rgba(${glow[0]},${glow[1]},${glow[2]},${Math.min(alpha * 0.42, 0.22)})`;
+    ctx.lineWidth = width * 2.2;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.shadowBlur = 0;
+    drawFn();
+    ctx.stroke();
+    ctx.restore();
+
+    ctx.save();
+    setStroke(alpha, width);
+    drawFn();
     ctx.stroke();
     ctx.restore();
   }
 
+  function drawX(x, y, size, alpha) {
+    drawLayeredPath(() => {
+      ctx.beginPath();
+      ctx.moveTo(x - size, y - size);
+      ctx.lineTo(x + size, y + size);
+      ctx.moveTo(x + size, y - size);
+      ctx.lineTo(x - size, y + size);
+    }, alpha, 2.1);
+  }
+
   function drawO(x, y, size, alpha) {
-    ctx.save();
-    ctx.strokeStyle = `rgba(${accent[0]},${accent[1]},${accent[2]},${alpha})`;
-    ctx.lineWidth = 1.2;
-    ctx.beginPath();
-    ctx.arc(x, y, size, 0, Math.PI * 2);
-    ctx.stroke();
-    ctx.restore();
+    drawLayeredPath(() => {
+      ctx.beginPath();
+      ctx.arc(x, y, size, 0, Math.PI * 2);
+    }, alpha, 2.1);
   }
 
   function drawRoute(route, progress, alpha) {
     if (!route || route.length < 2) {
       return;
     }
-
-    ctx.save();
-    ctx.strokeStyle = `rgba(${accent[0]},${accent[1]},${accent[2]},${alpha})`;
-    ctx.lineWidth = 1;
-    ctx.setLineDash([]);
-    ctx.beginPath();
-    ctx.moveTo(route[0].x, route[0].y);
-
-    // Calculate total route length
     let totalLen = 0;
     const segLens = [];
     for (let i = 1; i < route.length; i++) {
@@ -129,75 +143,77 @@ function generatePlaybook(canvas) {
     }
 
     const drawLen = totalLen * Math.min(progress, 1);
+    if (drawLen <= 0) {
+      return;
+    }
+
+    const drawnPath = [{ x: route[0].x, y: route[0].y }];
     let drawn = 0;
+    let tipAngle = 0;
 
     for (let i = 1; i < route.length; i++) {
-      const remaining = drawLen - drawn;
-      if (remaining <= 0) {
-        break;
-      }
-
       const segLen = segLens[i - 1];
-      if (remaining >= segLen) {
-        ctx.lineTo(route[i].x, route[i].y);
-        drawn += segLen;
-      } else {
-        // Partial segment
-        const t = remaining / segLen;
-        const ex = route[i - 1].x + (route[i].x - route[i - 1].x) * t;
-        const ey = route[i - 1].y + (route[i].y - route[i - 1].y) * t;
-        ctx.lineTo(ex, ey);
-
-        // Arrow head at the tip
-        const angle = Math.atan2(
-          route[i].y - route[i - 1].y,
-          route[i].x - route[i - 1].x,
-        );
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(ex, ey);
-        ctx.lineTo(
-          ex - 6 * Math.cos(angle - 0.4),
-          ey - 6 * Math.sin(angle - 0.4),
-        );
-        ctx.moveTo(ex, ey);
-        ctx.lineTo(
-          ex - 6 * Math.cos(angle + 0.4),
-          ey - 6 * Math.sin(angle + 0.4),
-        );
-        drawn += remaining;
+      if (segLen <= 0) {
+        continue;
       }
-    }
-    ctx.stroke();
+      const angle = Math.atan2(
+        route[i].y - route[i - 1].y,
+        route[i].x - route[i - 1].x,
+      );
 
-    // Arrow at end if fully drawn
-    if (progress >= 1 && route.length >= 2) {
-      const last = route[route.length - 1];
-      const prev = route[route.length - 2];
-      const angle = Math.atan2(last.y - prev.y, last.x - prev.x);
+      if (drawn + segLen <= drawLen) {
+        drawnPath.push({ x: route[i].x, y: route[i].y });
+        drawn += segLen;
+        tipAngle = angle;
+        continue;
+      }
+
+      const remaining = drawLen - drawn;
+      if (remaining > 0) {
+        const t = remaining / segLen;
+        drawnPath.push({
+          x: route[i - 1].x + (route[i].x - route[i - 1].x) * t,
+          y: route[i - 1].y + (route[i].y - route[i - 1].y) * t,
+        });
+        tipAngle = angle;
+      }
+      break;
+    }
+
+    if (drawnPath.length < 2) {
+      return;
+    }
+
+    drawLayeredPath(() => {
       ctx.beginPath();
-      ctx.moveTo(last.x, last.y);
-      ctx.lineTo(
-        last.x - 6 * Math.cos(angle - 0.4),
-        last.y - 6 * Math.sin(angle - 0.4),
-      );
-      ctx.moveTo(last.x, last.y);
-      ctx.lineTo(
-        last.x - 6 * Math.cos(angle + 0.4),
-        last.y - 6 * Math.sin(angle + 0.4),
-      );
-      ctx.stroke();
-    }
+      ctx.moveTo(drawnPath[0].x, drawnPath[0].y);
+      for (let i = 1; i < drawnPath.length; i++) {
+        ctx.lineTo(drawnPath[i].x, drawnPath[i].y);
+      }
+    }, alpha, 1.75);
 
-    ctx.restore();
+    const tip = drawnPath[drawnPath.length - 1];
+    drawLayeredPath(() => {
+      ctx.beginPath();
+      ctx.moveTo(tip.x, tip.y);
+      ctx.lineTo(
+        tip.x - 6 * Math.cos(tipAngle - 0.4),
+        tip.y - 6 * Math.sin(tipAngle - 0.4),
+      );
+      ctx.moveTo(tip.x, tip.y);
+      ctx.lineTo(
+        tip.x - 6 * Math.cos(tipAngle + 0.4),
+        tip.y - 6 * Math.sin(tipAngle + 0.4),
+      );
+    }, alpha, 1.7);
   }
 
   function draw() {
     ctx.clearRect(0, 0, w, h);
     const now = performance.now();
 
-    // Spawn new plays to maintain 3-4 on screen
-    while (plays.length < 4) {
+    // Spawn new plays to maintain a denser chalkboard feel
+    while (plays.length < 6) {
       plays.push(createPlay());
     }
 
@@ -210,11 +226,11 @@ function generatePlaybook(canvas) {
       // Fade in for first 800ms, fade out for last 1500ms
       let alpha;
       if (age < 800) {
-        alpha = (age / 800) * 0.14;
+        alpha = (age / 800) * play.maxAlpha;
       } else if (age > life - 1500) {
-        alpha = Math.max(0, ((life - age) / 1500) * 0.14);
+        alpha = Math.max(0, ((life - age) / 1500) * play.maxAlpha);
       } else {
-        alpha = 0.14;
+        alpha = play.maxAlpha;
       }
 
       if (age > life) {
@@ -225,7 +241,7 @@ function generatePlaybook(canvas) {
       // Route draw progress (0-1 over first 2.5s after fade-in)
       const routeProgress = Math.max(0, Math.min(1, ((age - 600) / 2500) * play.drawSpeed * 3));
 
-      const markerSize = 3.5;
+      const markerSize = 5.1;
       for (const p of play.players) {
         if (p.type === 'x') {
           drawX(p.x, p.y, markerSize, alpha);
@@ -234,7 +250,7 @@ function generatePlaybook(canvas) {
         }
 
         if (p.route) {
-          drawRoute(p.route, routeProgress, alpha * 0.85);
+          drawRoute(p.route, routeProgress, alpha * 0.96);
         }
       }
     }
