@@ -134,6 +134,40 @@ if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
 }
 
 // Load projects from JSON
+let loadedProjects = [];
+
+function openProjectDetailModal(project) {
+    const modal = document.getElementById('project-detail-modal');
+    const title = document.getElementById('project-detail-title');
+    const body = document.getElementById('project-detail-body');
+    const link = document.getElementById('project-detail-link');
+
+    if (!modal || !title || !body || !link) return;
+
+    title.textContent = project.title || 'Project Details';
+    body.textContent = project.longDescription || project.description || '';
+    link.href = project.url || '#';
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeProjectDetailModal() {
+    const modal = document.getElementById('project-detail-modal');
+    if (!modal) return;
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+}
+
+function bindProjectDetailButtons() {
+    document.querySelectorAll('[data-project-detail]').forEach(button => {
+        button.addEventListener('click', () => {
+            const idx = Number(button.getAttribute('data-project-detail'));
+            const project = loadedProjects[idx];
+            if (project) openProjectDetailModal(project);
+        });
+    });
+}
+
 async function loadProjects() {
     const container = document.getElementById('projects-container');
     if (!container) return;
@@ -141,6 +175,7 @@ async function loadProjects() {
     try {
         const response = await fetch('projects.json');
         const projects = await response.json();
+        loadedProjects = projects;
 
         container.innerHTML = projects.map((project, index) => {
             let imagesHtml = '';
@@ -159,16 +194,18 @@ async function loadProjects() {
                     <div class="project-content">
                         <h3 class="project-title">${project.title}</h3>
                         <p class="project-description project-description--summary">${project.description}</p>
-                        ${project.longDescription ? `<p class="project-description project-description--detail">${project.longDescription}</p>` : ''}
                         <div class="project-tags">${tagsHtml}</div>
                         <div class="project-links">
                             <a href="${project.url}" target="_blank" rel="noopener noreferrer" class="project-link">View Project →</a>
+                            <button type="button" class="project-link project-link-secondary" data-project-detail="${index}">View details</button>
                             ${noteHtml}
                         </div>
                     </div>
                 </article>
             `;
         }).join('');
+
+        bindProjectDetailButtons();
 
         // Re-observe for reveal animation
         container.querySelectorAll('.project-card').forEach((item, idx) => {
@@ -182,7 +219,22 @@ async function loadProjects() {
 }
 
 // Initialize projects
-document.addEventListener('DOMContentLoaded', loadProjects);
+document.addEventListener('DOMContentLoaded', () => {
+    loadProjects();
+
+    const modal = document.getElementById('project-detail-modal');
+    const closeButton = document.getElementById('project-detail-close');
+
+    closeButton?.addEventListener('click', closeProjectDetailModal);
+    modal?.addEventListener('click', (e) => {
+        if (e.target === modal) closeProjectDetailModal();
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeProjectDetailModal();
+    });
+});
+
 // Keyboard navigation for mobile menu
 navToggle?.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && navMenu.classList.contains('active')) {
