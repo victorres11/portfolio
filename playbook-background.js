@@ -25,7 +25,7 @@ function generatePlaybook(canvas) {
   }
 
   function createPlay() {
-    const scale = Math.min(w, h) * 0.33;
+    const scale = Math.min(w, h) * 0.24;
     const minDist = scale * 0.85;
 
     // Find a position that doesn't collide with existing plays
@@ -212,8 +212,8 @@ function generatePlaybook(canvas) {
     ctx.clearRect(0, 0, w, h);
     const now = performance.now();
 
-    // Spawn new plays to maintain a denser chalkboard feel
-    while (plays.length < 6) {
+    // Keep at most two plays on screen
+    while (plays.length < 2) {
       plays.push(createPlay());
     }
 
@@ -241,7 +241,7 @@ function generatePlaybook(canvas) {
       // Route draw progress (0-1 over first 2.5s after fade-in)
       const routeProgress = Math.max(0, Math.min(1, ((age - 600) / 2500) * play.drawSpeed * 3));
 
-      const markerSize = 5.1;
+      const markerSize = 4.2;
       for (const p of play.players) {
         if (p.type === 'x') {
           drawX(p.x, p.y, markerSize, alpha);
