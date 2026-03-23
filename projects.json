@@ -16,7 +16,7 @@
     "tags": ["Football Analytics", "Matchup Analysis", "Data Viz"],
     "url": "https://victorres11.github.io/football-data-adhoc/indiana_purdue_analysis_app.html",
     "note": "Best viewed on desktop or tablet",
-    "images": ["images/matchup-analytics.gif"]
+    "images": ["images/matchup-analytics-thumb.jpg"]
   },
   {
     "id": "snap-counts",
@@ -25,16 +25,16 @@
     "longDescription": "Ingests PFF snap count data and visually illustrates each position group's participation throughout the season. Play-by-play commentators can quickly understand how injuries, depth changes, and other factors have impacted their teams.",
     "tags": ["Player Analytics", "Snap Counts", "Participation Data"],
     "url": "https://victorres11.github.io/matchup-analytics/pages/purdue.html",
-    "images": ["images/snap-counts.gif"]
+    "images": ["images/snap-counts-thumb.jpg"]
   },
   {
-    "id": "one-play-a-day",
-    "title": "One Play a Day",
-    "description": "A searchable database of curated football plays sourced from Coach Dan Casey's daily email newsletter.",
-    "longDescription": "Automatically extracts plays from email, converts GIF animations to optimized MP4 video, uploads media to a global CDN, and deploys updates to a responsive web interface. Currently contains 300+ plays spanning NFL and college football.",
-    "tags": ["Football Film", "Play Database", "Automation"],
-    "url": "https://one-play-a-day-app.vercel.app",
-    "placeholder": { "icon": "🏈", "text": "300+ Searchable Plays" }
+    "id": "dossier-bot",
+    "title": "Dossier Bot",
+    "description": "A web-based dossier workspace that pairs a public Render app with private Mac mini execution for secure operator workflows.",
+    "longDescription": "Dossier Bot runs as a split architecture: web app + Postgres on Render, with a private bridge and worker on the Mac mini (`127.0.0.1:8788`) for controlled execution. Built for production operations with deployment runbooks, service templates, and auto-update scripts to keep runtime management reliable.",
+    "tags": ["AI Ops", "Automation", "Render + Worker"],
+    "url": "https://github.com/seneca-torres/seneca-dossier-web",
+    "placeholder": { "icon": "🦉", "text": "Render app + private Mac mini worker" }
   },
   {
     "id": "cbb-data-generator",
@@ -43,6 +43,6 @@
     "longDescription": "A full self-service application that allows broadcasters to generate a data report for any NCAA team. Fetches from multiple data sources so users get all their data in one place—instead of clicking through 10+ different domains.",
     "tags": ["Data Integration", "Sports Analytics", "Automation"],
     "url": "https://cbb-data-generator.onrender.com/",
-    "images": ["images/bball-data-generator.gif"]
+    "images": ["images/bball-data-generator-thumb.jpg"]
   }
 ]

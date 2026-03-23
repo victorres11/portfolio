@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="VT Sports Solutions - Bespoke analytics, apps, and automated workflows for football decision-makers. Custom sports analytics by Vic Torres.">
-    <meta name="theme-color" content="#0a0e1a">
+    <meta name="theme-color" content="#09090b">
     <title>Vic Torres - Sports Analytics Engineer | VT Sports Solutions</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="preload" href="fonts/Chalk Board - A Handmade Chalk Font/2. TTF/Chalk Board.ttf" as="font" type="font/ttf" crossorigin>
 </head>
 <body>
+    <canvas id="playbook-bg" class="playbook-bg" aria-hidden="true"></canvas>
     <nav class="nav">
         <div class="nav-container">
             <a href="#" class="nav-logo"></a>
@@ -69,7 +70,6 @@
                 <div class="projects-grid" id="projects-container">
                     <!-- Projects loaded from projects.json -->
                 </div>
-                </div>
             </div>
         </section>
     </main>
@@ -83,6 +83,16 @@
         </div>
     </footer>
 
+    <div id="project-detail-modal" class="project-modal" aria-hidden="true">
+        <div class="project-modal-card" role="dialog" aria-modal="true" aria-labelledby="project-detail-title">
+            <button type="button" id="project-detail-close" class="project-modal-close" aria-label="Close details">×</button>
+            <h3 id="project-detail-title" class="project-modal-title">Project Details</h3>
+            <p id="project-detail-body" class="project-modal-body"></p>
+            <a id="project-detail-link" class="project-link" target="_blank" rel="noopener noreferrer">Open Project →</a>
+        </div>
+    </div>
+
+    <script type="module" src="playbook-background.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
