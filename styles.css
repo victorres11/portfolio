@@ -860,6 +860,10 @@ img {
         border-radius: 0;
     }
 
+    .modal-close {
+        top: env(safe-area-inset-top, 0.5rem);
+    }
+
     .modal-body .grid-top {
         grid-template-columns: 1fr;
     }
