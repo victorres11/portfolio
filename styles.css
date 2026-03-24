@@ -767,6 +767,41 @@ img {
     }
 }
 
+/* Floating Badge */
+.floating-badge {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1rem;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    border-radius: 9999px;
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--color-border);
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.floating-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lift);
+}
+
+.floating-badge span {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+}
+
+.floating-badge img {
+    height: 22px;
+    width: auto;
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
     *,
