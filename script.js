@@ -202,21 +202,10 @@ navToggle?.addEventListener('keydown', (e) => {
     }
 });
 
-// Subtle parallax for hero background
-const heroBg = document.querySelector('.hero-bg');
-let heroTicking = false;
-
-function updateHeroParallax() {
-    if (!heroBg) return;
-    const scrollY = window.scrollY || 0;
-    heroBg.style.transform = `translate3d(0, ${scrollY * 0.2}px, 0)`;
-    heroTicking = false;
+// Play animation background
+if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const heroCanvas = document.querySelector('.play-canvas');
+    if (heroCanvas && typeof window.initPlayAnimation === 'function') {
+        window.initPlayAnimation(heroCanvas);
+    }
 }
-
-window.addEventListener('scroll', () => {
-    if (!heroBg || heroTicking) return;
-    heroTicking = true;
-    window.requestAnimationFrame(updateHeroParallax);
-});
-
-window.addEventListener('load', updateHeroParallax);
