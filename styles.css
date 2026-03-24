@@ -477,7 +477,8 @@ img {
     margin-bottom: 1.5rem;
 }
 
-.modal-body .modal-image img {
+.modal-body .modal-image img,
+.modal-body .modal-image video {
     width: 100%;
     height: auto;
     object-fit: cover;
