@@ -6,7 +6,7 @@
     "longDescription": "Built using team rosters, phonetic pronunciations, and special teams snap counts to create a clear, visual roster card that supports fast, accurate identification on the call. Especially valuable in college football, where duplicate jersey numbers are common in special teams situations. A simple, game-ready tool that reduces on-air friction and helps broadcasters call plays with confidence and speed.",
     "tags": ["Player Analytics", "Snap Counts", "Broadcast Tools"],
     "url": "https://victorres11.github.io/spotting-grid/",
-    "images": ["images/iowa_0-99.jpg", "images/usc_0-99.jpg"]
+    "images": ["images/explainer.png"]
   },
   {
     "id": "matchup-analytics",
