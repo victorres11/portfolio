@@ -315,7 +315,6 @@ img {
 /* Projects */
 .projects {
     padding: 7rem 0 6rem;
-    background: var(--color-bg-alt);
     position: relative;
 }
 
@@ -518,7 +517,6 @@ img {
 .footer {
     padding: 3.5rem 0;
     border-top: 1px solid var(--color-border);
-    background-color: var(--color-bg);
 }
 
 .footer .container {
