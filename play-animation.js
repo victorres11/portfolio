@@ -164,7 +164,6 @@
     var accent = [30, 58, 95];
     var plays = [];
     var lastPlayIdx = -1;
-    var lastSpawnTime = -Infinity;
     var rafId;
 
     function resize() {
@@ -318,9 +317,13 @@
       ctx.clearRect(0, 0, w, h);
       var now = performance.now();
 
-      if (plays.length < 2 && now - lastSpawnTime > 3500) {
+      var shouldSpawn = plays.length === 0 || (
+        plays.length < 2 && plays.some(function (p) {
+          return (now - p.birth) > (p.lifespan - 1500);
+        })
+      );
+      if (shouldSpawn) {
         plays.push(createPlay());
-        lastSpawnTime = now;
       }
 
       for (var i = plays.length - 1; i >= 0; i--) {
