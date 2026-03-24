@@ -194,7 +194,9 @@ function openModal(index) {
 
     // Build image HTML for the modal
     let imagesHtml = '';
-    if (project.placeholder) {
+    if (project.video) {
+        imagesHtml = `<div class="modal-image"><video src="${project.video}" autoplay muted loop playsinline></video></div>`;
+    } else if (project.placeholder) {
         imagesHtml = `<div class="modal-placeholder"><span class="modal-placeholder-icon">${project.placeholder.icon}</span><span class="modal-placeholder-text">${project.placeholder.text}</span></div>`;
     } else if (project.id === 'spotting-grid' && project.images && project.images.length >= 3) {
         imagesHtml = `
