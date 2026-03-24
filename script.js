@@ -146,13 +146,14 @@ async function loadProjects() {
 
         container.innerHTML = projectsData.map((project, index) => {
             const tagsHtml = project.tags ? project.tags.map(tag => `<span class="tag">${tag}</span>`).join('') : '';
+            const badgeHtml = project.badge ? ` <span class="badge badge-${project.badge.toLowerCase()}">${project.badge}</span>` : '';
 
             return `
                 <article class="project-card" data-project-index="${index}" role="button" tabindex="0"
                          aria-label="View details for ${project.title}"
                          style="transition-delay: ${index * 0.08}s">
                     <div class="project-content">
-                        <h3 class="project-title">${project.title}</h3>
+                        <h3 class="project-title">${project.title}${badgeHtml}</h3>
                         <p class="project-description">${project.description}</p>
                         <div class="project-tags">${tagsHtml}</div>
                     </div>
@@ -214,9 +215,11 @@ function openModal(index) {
     const tagsHtml = project.tags ? project.tags.map(tag => `<span class="tag">${tag}</span>`).join('') : '';
     const noteHtml = project.note ? `<p class="project-note">${project.note}</p>` : '';
 
+    const badgeHtml = project.badge ? ` <span class="badge badge-${project.badge.toLowerCase()}">${project.badge}</span>` : '';
+
     modalBody.innerHTML = `
         ${imagesHtml}
-        <h3 class="modal-title" id="modal-title">${project.title}</h3>
+        <h3 class="modal-title" id="modal-title">${project.title}${badgeHtml}</h3>
         <p class="modal-description">${project.description}</p>
         ${project.longDescription ? `<p class="modal-description">${project.longDescription}</p>` : ''}
         <div class="project-tags">${tagsHtml}</div>
