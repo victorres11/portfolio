@@ -196,10 +196,11 @@ img {
     overflow: hidden;
 }
 
-.hero-play-canvas {
-    position: absolute;
+.play-canvas {
+    position: fixed;
     inset: 0;
     pointer-events: none;
+    z-index: 0;
 }
 
 .hero .container {

@@ -204,7 +204,7 @@ navToggle?.addEventListener('keydown', (e) => {
 
 // Play animation background
 if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const heroCanvas = document.querySelector('.hero-play-canvas');
+    const heroCanvas = document.querySelector('.play-canvas');
     if (heroCanvas && typeof window.initPlayAnimation === 'function') {
         window.initPlayAnimation(heroCanvas);
     }
