@@ -98,10 +98,10 @@ const revealObserver = new IntersectionObserver((entries) => {
 
 // Apply initial state and observe reveal elements
 document.addEventListener('DOMContentLoaded', () => {
-    const revealItems = document.querySelectorAll('.reveal, .project-card');
+    const revealItems = document.querySelectorAll('.reveal, .project-card, .client-card');
 
     revealItems.forEach((item, index) => {
-        const delay = item.classList.contains('project-card') ? index * 0.08 : 0;
+        const delay = (item.classList.contains('project-card') || item.classList.contains('client-card')) ? index * 0.08 : 0;
         item.style.transitionDelay = `${delay}s`;
         revealObserver.observe(item);
     });
@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Reduce motion preference
 if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    document.querySelectorAll('.reveal, .project-card').forEach(item => {
+    document.querySelectorAll('.reveal, .project-card, .client-card').forEach(item => {
         item.classList.add('visible');
         item.style.transition = 'none';
         item.style.transitionDelay = '0s';
