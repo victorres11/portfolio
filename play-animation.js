@@ -317,7 +317,12 @@
       ctx.clearRect(0, 0, w, h);
       var now = performance.now();
 
-      while (plays.length < 4) {
+      var shouldSpawn = plays.length === 0 || (
+        plays.length < 2 && plays.some(function (p) {
+          return (now - p.birth) > (p.lifespan - 1500);
+        })
+      );
+      if (shouldSpawn) {
         plays.push(createPlay());
       }
 
