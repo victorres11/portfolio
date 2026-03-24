@@ -134,46 +134,27 @@ if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
 }
 
 // Load projects from JSON
+let projectsData = [];
+
 async function loadProjects() {
     const container = document.getElementById('projects-container');
     if (!container) return;
 
     try {
         const response = await fetch('projects.json');
-        const projects = await response.json();
+        projectsData = await response.json();
 
-        container.innerHTML = projects.map((project, index) => {
-            let imagesHtml = '';
-            if (project.placeholder) {
-                imagesHtml = `<div class="project-image"><div class="opad-placeholder"><span class="opad-placeholder-icon">${project.placeholder.icon}</span><span class="opad-placeholder-text">${project.placeholder.text}</span></div></div>`;
-            } else if (project.id === 'spotting-grid' && project.images && project.images.length >= 3) {
-                imagesHtml = `
-                    <div class="grid-top">
-                        <img src="${project.images[0]}" alt="Project image" class="grid-image" loading="lazy">
-                        <img src="${project.images[1]}" alt="Project image" class="grid-image" loading="lazy">
-                    </div>
-                    <img src="${project.images[2]}" alt="Project image" class="grid-explainer" loading="lazy">
-                `;
-                imagesHtml = `<div class="project-image project-image-triple">${imagesHtml}</div>`;
-            } else if (project.images && project.images.length > 0) {
-                imagesHtml = `<div class="project-image"><img src="${project.images[0]}" alt="${project.title}" loading="lazy"></div>`;
-            }
-
+        container.innerHTML = projectsData.map((project, index) => {
             const tagsHtml = project.tags ? project.tags.map(tag => `<span class="tag">${tag}</span>`).join('') : '';
-            const noteHtml = project.note ? `<p class="project-note">${project.note}</p>` : '';
 
             return `
-                <article class="project-card" style="transition-delay: ${index * 0.08}s">
-                    ${imagesHtml}
+                <article class="project-card" data-project-index="${index}" role="button" tabindex="0"
+                         aria-label="View details for ${project.title}"
+                         style="transition-delay: ${index * 0.08}s">
                     <div class="project-content">
                         <h3 class="project-title">${project.title}</h3>
                         <p class="project-description">${project.description}</p>
-                        ${project.longDescription ? `<p class="project-description">${project.longDescription}</p>` : ''}
                         <div class="project-tags">${tagsHtml}</div>
-                        <div class="project-links">
-                            <a href="${project.url}" target="_blank" rel="noopener noreferrer" class="project-link">View Project →</a>
-                            ${noteHtml}
-                        </div>
                     </div>
                 </article>
             `;
@@ -185,10 +166,108 @@ async function loadProjects() {
             revealObserver.observe(item);
         });
 
+        // Add click and keyboard handlers for modal
+        container.querySelectorAll('.project-card').forEach(card => {
+            card.addEventListener('click', () => openModal(Number(card.dataset.projectIndex)));
+            card.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    openModal(Number(card.dataset.projectIndex));
+                }
+            });
+        });
+
     } catch (error) {
         console.error('Failed to load projects:', error);
     }
 }
+
+// Modal logic
+let previouslyFocused = null;
+
+function openModal(index) {
+    const project = projectsData[index];
+    if (!project) return;
+
+    const overlay = document.getElementById('project-modal');
+    const modalBody = document.getElementById('modal-body');
+
+    // Build image HTML for the modal
+    let imagesHtml = '';
+    if (project.placeholder) {
+        imagesHtml = `<div class="modal-placeholder"><span class="modal-placeholder-icon">${project.placeholder.icon}</span><span class="modal-placeholder-text">${project.placeholder.text}</span></div>`;
+    } else if (project.id === 'spotting-grid' && project.images && project.images.length >= 3) {
+        imagesHtml = `
+            <div class="modal-image-triple">
+                <div class="grid-top">
+                    <img src="${project.images[0]}" alt="Project image" class="grid-image">
+                    <img src="${project.images[1]}" alt="Project image" class="grid-image">
+                </div>
+                <img src="${project.images[2]}" alt="Project image" class="grid-explainer">
+            </div>`;
+    } else if (project.images && project.images.length > 0) {
+        imagesHtml = `<div class="modal-image"><img src="${project.images[0]}" alt="${project.title}"></div>`;
+    }
+
+    const tagsHtml = project.tags ? project.tags.map(tag => `<span class="tag">${tag}</span>`).join('') : '';
+    const noteHtml = project.note ? `<p class="project-note">${project.note}</p>` : '';
+
+    modalBody.innerHTML = `
+        ${imagesHtml}
+        <h3 class="modal-title" id="modal-title">${project.title}</h3>
+        <p class="modal-description">${project.description}</p>
+        ${project.longDescription ? `<p class="modal-description">${project.longDescription}</p>` : ''}
+        <div class="project-tags">${tagsHtml}</div>
+        <div class="project-links">
+            <a href="${project.url}" target="_blank" rel="noopener noreferrer" class="project-link">View Project →</a>
+            ${noteHtml}
+        </div>
+    `;
+
+    previouslyFocused = document.activeElement;
+    overlay.removeAttribute('hidden');
+    // Force reflow before adding active class for animation
+    overlay.offsetHeight;
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+
+    overlay.querySelector('.modal-close').focus();
+}
+
+function closeModal() {
+    const overlay = document.getElementById('project-modal');
+    overlay.classList.remove('active');
+
+    overlay.addEventListener('transitionend', function handler() {
+        overlay.setAttribute('hidden', '');
+        overlay.removeEventListener('transitionend', handler);
+    });
+
+    document.body.style.overflow = '';
+
+    if (previouslyFocused) {
+        previouslyFocused.focus();
+        previouslyFocused = null;
+    }
+}
+
+// Modal event listeners
+document.addEventListener('DOMContentLoaded', () => {
+    const overlay = document.getElementById('project-modal');
+    if (!overlay) return;
+
+    overlay.querySelector('.modal-close').addEventListener('click', closeModal);
+
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) closeModal();
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !overlay.hasAttribute('hidden')) {
+            closeModal();
+        }
+    });
+});
 
 // Initialize projects
 document.addEventListener('DOMContentLoaded', loadProjects);
