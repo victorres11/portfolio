@@ -54,5 +54,14 @@
     "tags": ["AI", "Research Tool", "Broadcast Prep"],
     "url": "https://seneca-dossier-web.onrender.com",
     "images": ["images/dossierbot.png"]
+  },
+  {
+    "id": "misery-index",
+    "title": "Misery Index",
+    "description": "A recruiting tool that shows recruits the impact on their family's ability to watch them play, based on what school they choose relative to their hometown.",
+    "longDescription": "A tool that quantifies the travel burden for college football programs across conferences. Computes total miles traveled, number of flights needed, estimated travel costs, and home game accessibility to produce a single \"Misery Score\" per team. Helps fans and analysts understand the real-world impact of conference realignment on team travel logistics.",
+    "tags": ["College Football", "Travel Analytics", "Data Viz"],
+    "url": "https://misery-index-eta.vercel.app/",
+    "images": ["images/misery-index.png"]
   }
 ]
