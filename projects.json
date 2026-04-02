@@ -52,7 +52,7 @@
     "longDescription": "An AI-powered research product that generates comprehensive dossiers on sports-world professionals. Surfaces recent public signals, career history, and contextual insights — giving broadcasters and front-office staff a structured, ready-to-use briefing before meetings, calls, or game broadcasts.",
     "badge": "BETA",
     "tags": ["AI", "Research Tool", "Broadcast Prep"],
-    "url": "https://seneca-dossier-web.onrender.com",
+    "url": "https://dossier-web.onrender.com",
     "images": ["images/dossierbot.png"]
   },
   {
