@@ -1,3 +1,82 @@
+const SIGNALS_API_PATH = '/api/signals';
+const SIGNALS_STORAGE_KEY = 'vt_portfolio_anonymous_id';
+const SIGNALS_CLICK_PARAM = 'portfolio_click_id';
+
+function getAnonymousId() {
+    try {
+        const existing = window.localStorage.getItem(SIGNALS_STORAGE_KEY);
+        if (existing) return existing;
+
+        const generated = `anon_${window.crypto?.randomUUID ? window.crypto.randomUUID() : `${Date.now()}_${Math.random().toString(16).slice(2)}`}`;
+        window.localStorage.setItem(SIGNALS_STORAGE_KEY, generated);
+        return generated;
+    } catch {
+        return `anon_${Date.now()}_${Math.random().toString(16).slice(2)}`;
+    }
+}
+
+function getUtmParams() {
+    const params = new URLSearchParams(window.location.search);
+    return {
+        utm_source: params.get('utm_source') || params.get('src') || undefined,
+        utm_medium: params.get('utm_medium') || undefined,
+        utm_campaign: params.get('utm_campaign') || undefined,
+        portfolio_click_id: params.get(SIGNALS_CLICK_PARAM) || undefined,
+    };
+}
+
+function trackSignal(event, properties = {}) {
+    const payload = {
+        event,
+        anonymous_id: getAnonymousId(),
+        path: `${window.location.pathname}${window.location.search}`,
+        referrer: document.referrer || undefined,
+        occurred_at: new Date().toISOString(),
+        ...getUtmParams(),
+        properties,
+    };
+    if (properties.portfolio_click_id) {
+        payload.portfolio_click_id = properties.portfolio_click_id;
+    }
+
+    const body = JSON.stringify(payload);
+    if (navigator.sendBeacon) {
+        const blob = new Blob([body], { type: 'application/json' });
+        if (navigator.sendBeacon(SIGNALS_API_PATH, blob)) return;
+    }
+
+    fetch(SIGNALS_API_PATH, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body,
+        keepalive: true,
+    }).catch(() => {});
+}
+
+function createPortfolioClickId(projectId) {
+    const randomPart = window.crypto?.randomUUID ? window.crypto.randomUUID() : `${Date.now()}_${Math.random().toString(16).slice(2)}`;
+    return `clk_${projectId || 'portfolio'}_${randomPart}`.replace(/[^a-zA-Z0-9_-]/g, '_');
+}
+
+function addPortfolioAttribution(url, clickId) {
+    try {
+        const parsed = new URL(url, window.location.href);
+        parsed.searchParams.set('src', 'portfolio');
+        parsed.searchParams.set(SIGNALS_CLICK_PARAM, clickId);
+        return parsed.toString();
+    } catch {
+        return url;
+    }
+}
+
+function escapeAttribute(value) {
+    return String(value || '')
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+}
+
 // Mobile navigation toggle
 const navToggle = document.querySelector('.nav-toggle');
 const navMenu = document.querySelector('.nav-menu');
@@ -96,8 +175,41 @@ const revealObserver = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
+const sectionViewObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const sectionId = entry.target.getAttribute('id');
+        if (sectionId === 'about') {
+            trackSignal('about_section_viewed');
+        } else if (sectionId === 'projects') {
+            trackSignal('project_section_viewed');
+        }
+        sectionViewObserver.unobserve(entry.target);
+    });
+}, { threshold: 0.35 });
+
+const projectCardViewObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const card = entry.target;
+        trackSignal('project_card_viewed', {
+            project_id: card.dataset.projectId,
+            project_title: card.dataset.projectTitle,
+        });
+        projectCardViewObserver.unobserve(card);
+    });
+}, { threshold: 0.45 });
+
 // Apply initial state and observe reveal elements
 document.addEventListener('DOMContentLoaded', () => {
+    trackSignal('page_viewed', {
+        title: document.title,
+    });
+
+    document.querySelectorAll('section[id]').forEach(section => {
+        sectionViewObserver.observe(section);
+    });
+
     const revealItems = document.querySelectorAll('.reveal, .project-card, .client-card');
 
     revealItems.forEach((item, index) => {
@@ -149,7 +261,7 @@ async function loadProjects() {
             const badgeHtml = project.badge ? ` <span class="badge badge-${project.badge.toLowerCase()}">${project.badge}</span>` : '';
 
             return `
-                <article class="project-card" data-project-index="${index}" role="button" tabindex="0"
+                <article class="project-card" data-project-index="${index}" data-project-id="${escapeAttribute(project.id)}" data-project-title="${escapeAttribute(project.title)}" role="button" tabindex="0"
                          aria-label="View details for ${project.title}"
                          style="transition-delay: ${index * 0.08}s">
                     <div class="project-content">
@@ -165,6 +277,7 @@ async function loadProjects() {
         container.querySelectorAll('.project-card').forEach((item, idx) => {
             item.style.transitionDelay = `${idx * 0.08}s`;
             revealObserver.observe(item);
+            projectCardViewObserver.observe(item);
         });
 
         // Add click and keyboard handlers for modal
@@ -216,6 +329,17 @@ function openModal(index) {
     const noteHtml = project.note ? `<p class="project-note">${project.note}</p>` : '';
 
     const badgeHtml = project.badge ? ` <span class="badge badge-${project.badge.toLowerCase()}">${project.badge}</span>` : '';
+    const clickId = createPortfolioClickId(project.id);
+    const attributedUrl = addPortfolioAttribution(project.url, clickId);
+
+    trackSignal('project_card_clicked', {
+        project_id: project.id,
+        project_title: project.title,
+    });
+    trackSignal('project_detail_viewed', {
+        project_id: project.id,
+        project_title: project.title,
+    });
 
     modalBody.innerHTML = `
         ${imagesHtml}
@@ -224,7 +348,7 @@ function openModal(index) {
         ${project.longDescription ? `<p class="modal-description">${project.longDescription}</p>` : ''}
         <div class="project-tags">${tagsHtml}</div>
         <div class="project-links">
-            <a href="${project.url}" target="_blank" rel="noopener noreferrer" class="project-link">View Project →</a>
+            <a href="${attributedUrl}" target="_blank" rel="noopener noreferrer" class="project-link" data-signal-event="project_link_clicked" data-project-id="${escapeAttribute(project.id)}" data-project-title="${escapeAttribute(project.title)}" data-portfolio-click-id="${escapeAttribute(clickId)}">View Project →</a>
             ${noteHtml}
         </div>
     `;
@@ -276,6 +400,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Initialize projects
 document.addEventListener('DOMContentLoaded', loadProjects);
+
+document.addEventListener('click', (event) => {
+    if (!(event.target instanceof Element)) return;
+    const link = event.target.closest('a[data-signal-event]');
+    if (!link) return;
+
+    trackSignal(link.dataset.signalEvent, {
+        project_id: link.dataset.projectId,
+        project_title: link.dataset.projectTitle,
+        link_location: link.dataset.linkLocation,
+        destination_url: link.href,
+        portfolio_click_id: link.dataset.portfolioClickId,
+    });
+});
 // Keyboard navigation for mobile menu
 navToggle?.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && navMenu.classList.contains('active')) {
