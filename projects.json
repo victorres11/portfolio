@@ -1,5 +1,33 @@
 [
   {
+    "id": "dossierbot",
+    "title": "DossierBot",
+    "description": "A professional briefing tool that helps sports broadcasters, coaches, and executives get up to speed on a person quickly.",
+    "longDescription": "An AI-powered research product that generates comprehensive dossiers on sports-world professionals. Surfaces recent public signals, career history, and contextual insights — giving broadcasters and front-office staff a structured, ready-to-use briefing before meetings, calls, or game broadcasts.",
+    "badge": "BETA",
+    "tags": ["AI", "Research Tool", "Broadcast Prep"],
+    "url": "https://dossier-web.onrender.com",
+    "images": ["images/dossierbot.png"]
+  },
+  {
+    "id": "clipper",
+    "title": "Clipper",
+    "description": "A personalized sports news aggregator that replaces Google Alerts with curated topic feeds, clean reader mode, and AI-powered trending clusters.",
+    "longDescription": "Create private topics with custom keyword lists (e.g., \"Big Ten Football\") and Clipper automatically fetches relevant articles and videos every 6 hours. Features include a clean, ad-free reader mode, AI-powered trending clusters that group related stories together, per-topic source blocking, and smart sport-context filtering to cut through noise. Designed for sports professionals who need to stay on top of their beat without the clutter.",
+    "tags": ["AI", "News Aggregation", "Personalization"],
+    "url": "https://clipper-red.vercel.app/",
+    "images": ["images/clipper.png"]
+  },
+  {
+    "id": "misery-index",
+    "title": "Misery Index",
+    "description": "A recruiting tool that shows recruits the impact on their family's ability to watch them play, based on what school they choose relative to their hometown.",
+    "longDescription": "A tool that quantifies the travel burden for college football programs across conferences. Computes total miles traveled, number of flights needed, estimated travel costs, and home game accessibility to produce a single \"Misery Score\" per team. Helps fans and analysts understand the real-world impact of conference realignment on team travel logistics.",
+    "tags": ["College Football", "Travel Analytics", "Data Viz"],
+    "url": "https://misery-index-eta.vercel.app/",
+    "images": ["images/misery-index.png"]
+  },
+  {
     "id": "spotting-grid",
     "title": "0-99 Spotting Grid for Play-by-Play Commentators",
     "description": "A data-driven '0–99' spotting grid for play-by-play commentators, designed to be printed and referenced during live games. Built using team rosters, phonetic pronunciations, and special teams snap counts.",
@@ -44,24 +72,5 @@
     "tags": ["Data Integration", "Sports Analytics", "Automation"],
     "url": "https://cbb-data-generator.onrender.com/",
     "images": ["images/bball-data-generator.gif"]
-  },
-  {
-    "id": "dossierbot",
-    "title": "DossierBot",
-    "description": "A professional briefing tool that helps sports broadcasters, coaches, and executives get up to speed on a person quickly.",
-    "longDescription": "An AI-powered research product that generates comprehensive dossiers on sports-world professionals. Surfaces recent public signals, career history, and contextual insights — giving broadcasters and front-office staff a structured, ready-to-use briefing before meetings, calls, or game broadcasts.",
-    "badge": "BETA",
-    "tags": ["AI", "Research Tool", "Broadcast Prep"],
-    "url": "https://dossier-web.onrender.com",
-    "images": ["images/dossierbot.png"]
-  },
-  {
-    "id": "misery-index",
-    "title": "Misery Index",
-    "description": "A recruiting tool that shows recruits the impact on their family's ability to watch them play, based on what school they choose relative to their hometown.",
-    "longDescription": "A tool that quantifies the travel burden for college football programs across conferences. Computes total miles traveled, number of flights needed, estimated travel costs, and home game accessibility to produce a single \"Misery Score\" per team. Helps fans and analysts understand the real-world impact of conference realignment on team travel logistics.",
-    "tags": ["College Football", "Travel Analytics", "Data Viz"],
-    "url": "https://misery-index-eta.vercel.app/",
-    "images": ["images/misery-index.png"]
   }
 ]
