@@ -333,11 +333,11 @@
 
         var alpha;
         if (age < 800) {
-          alpha = (age / 800) * 0.14;
+          alpha = (age / 800) * 0.22;
         } else if (age > life - 1500) {
-          alpha = Math.max(0, ((life - age) / 1500) * 0.14);
+          alpha = Math.max(0, ((life - age) / 1500) * 0.22);
         } else {
-          alpha = 0.14;
+          alpha = 0.22;
         }
 
         if (age > life) {
