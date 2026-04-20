@@ -19,6 +19,18 @@
     "images": ["images/clipper.png"]
   },
   {
+    "id": "quote-sniffer",
+    "title": "Quote Sniffer",
+    "description": "A source-backed quote search tool that finds quotes from or about a player across the web.",
+    "longDescription": "Enter a player name to search web and news sources, extract relevant quotes, deduplicate repeated mentions, and produce a clean dossier with source links. Built for faster sports research and broadcast prep when you need what a player said, or what coaches and teammates have said about them.",
+    "tags": ["Sports Research", "Quote Search", "Broadcast Prep"],
+    "url": "https://web-rho-virid-56.vercel.app/",
+    "placeholder": {
+      "icon": "QS",
+      "text": "Source-backed quote dossiers"
+    }
+  },
+  {
     "id": "misery-index",
     "title": "Misery Index",
     "description": "A recruiting tool that shows recruits the impact on their family's ability to watch them play, based on what school they choose relative to their hometown.",
