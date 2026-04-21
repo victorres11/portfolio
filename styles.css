@@ -342,28 +342,59 @@ img {
     font-weight: 600;
 }
 
-.about-content {
-    max-width: 680px;
-    padding: 0 0 0 1.75rem;
-    border-left: 2px solid var(--color-accent);
+.about-grid {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    gap: 4rem;
+    align-items: start;
 }
 
-.about-content .about-lead {
-    font-size: 1.35rem;
-    line-height: 1.5;
+.about-statement p {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 2vw + 1rem, 2.4rem);
+    font-weight: 700;
+    line-height: 1.2;
     color: var(--color-text);
-    font-weight: 600;
-    margin-bottom: 1.25rem;
+    letter-spacing: -0.02em;
 }
 
-.about-content p {
+.about-statement em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 700;
+    color: var(--color-accent);
+}
+
+.about-rotate-wrap {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    transition: height 0.4s ease;
+}
+
+.about-rotate {
+    display: block;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.about-rotate.fade-out {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.about-rotate.fade-in {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.about-details p {
     font-size: 1.05rem;
     line-height: 1.8;
     color: var(--color-text-secondary);
     margin-bottom: 1.25rem;
 }
 
-.about-content p:last-child {
+.about-details p:last-child {
     margin-bottom: 0;
 }
 
@@ -986,8 +1017,22 @@ img {
         padding: 4.5rem 0 4rem;
     }
 
-    .about-content {
-        padding: 0 0 0 1.25rem;
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .about-statement p {
+        font-size: 1.6rem;
+    }
+
+    .hero-tagline {
+        font-size: 0.65rem;
+        letter-spacing: 0.1em;
+    }
+
+    .service-item {
+        padding: 1.5rem 0;
     }
 
     .projects {
@@ -1038,8 +1083,8 @@ img {
         padding: 8rem 0 4rem;
     }
 
-    .hero-logo-wrap {
-        padding: 1rem;
+    .about-statement p {
+        font-size: 1.4rem;
     }
 
     .project-content {

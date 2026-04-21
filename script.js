@@ -286,6 +286,44 @@ navToggle?.addEventListener('keydown', (e) => {
     }
 });
 
+// About section rotating text
+(function () {
+    const phrases = [
+        'five <em>extra</em> hours every week?',
+        'one fewer <em>late night</em> before game day?',
+        'your next game\'s prep done before you <em>land</em>?',
+        'more time on <em>film,</em> less on spreadsheets?',
+    ];
+    const el = document.getElementById('about-rotate');
+    if (!el) return;
+    const wrap = el.parentElement;
+    let i = 0;
+
+    function setHeight() {
+        el.innerHTML = phrases[i];
+        wrap.style.height = el.scrollHeight + 'px';
+    }
+
+    setHeight();
+    window.addEventListener('resize', setHeight);
+
+    setInterval(() => {
+        el.classList.add('fade-out');
+        setTimeout(() => {
+            i = (i + 1) % phrases.length;
+            el.innerHTML = phrases[i];
+            wrap.style.height = el.scrollHeight + 'px';
+            el.classList.remove('fade-out');
+            el.classList.add('fade-in');
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    el.classList.remove('fade-in');
+                });
+            });
+        }, 500);
+    }, 3500);
+})();
+
 // Play animation background
 if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     const heroCanvas = document.querySelector('.play-canvas');
