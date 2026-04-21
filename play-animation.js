@@ -161,7 +161,7 @@
     var ctx = canvas.getContext('2d');
     var dpr = window.devicePixelRatio || 1;
     var w, h;
-    var accent = [30, 58, 95];
+    var accent = [122, 46, 46];
     var plays = [];
     var lastPlayIdx = -1;
     var rafId;
@@ -333,11 +333,11 @@
 
         var alpha;
         if (age < 800) {
-          alpha = (age / 800) * 0.22;
+          alpha = (age / 800) * 0.35;
         } else if (age > life - 1500) {
-          alpha = Math.max(0, ((life - age) / 1500) * 0.22);
+          alpha = Math.max(0, ((life - age) / 1500) * 0.35);
         } else {
-          alpha = 0.22;
+          alpha = 0.35;
         }
 
         if (age > life) {

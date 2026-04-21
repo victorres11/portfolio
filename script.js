@@ -98,10 +98,10 @@ const revealObserver = new IntersectionObserver((entries) => {
 
 // Apply initial state and observe reveal elements
 document.addEventListener('DOMContentLoaded', () => {
-    const revealItems = document.querySelectorAll('.reveal, .project-card, .client-card');
+    const revealItems = document.querySelectorAll('.reveal, .project-card, .client-card, .service-item');
 
     revealItems.forEach((item, index) => {
-        const delay = (item.classList.contains('project-card') || item.classList.contains('client-card')) ? index * 0.08 : 0;
+        const delay = (item.classList.contains('project-card') || item.classList.contains('client-card') || item.classList.contains('service-item')) ? index * 0.08 : 0;
         item.style.transitionDelay = `${delay}s`;
         revealObserver.observe(item);
     });
