@@ -55,6 +55,10 @@
     "longDescription": "Ingests a full season of play-by-play data for selected teams and compares them head-to-head to surface deeper, more contextual insights. Supports highly specific questions: 'Middle 8' performance, points scored following turnovers, and offensive reliance on specific receivers in third-down and red-zone situations.",
     "tags": ["Football Analytics", "Matchup Analysis", "Data Viz"],
     "url": "https://victorres11.github.io/football-data-adhoc/indiana_purdue_analysis_app.html",
+    "links": [
+      { "label": "Version 1", "url": "https://pbp-analysis.vercel.app/" },
+      { "label": "Version 2", "url": "https://victorres11.github.io/football-data-adhoc/indiana_purdue_analysis_app.html" }
+    ],
     "note": "Best viewed on desktop or tablet",
     "images": ["images/matchup-analytics.gif"]
   },

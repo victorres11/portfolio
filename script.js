@@ -224,7 +224,9 @@ function openModal(index) {
         ${project.longDescription ? `<p class="modal-description">${project.longDescription}</p>` : ''}
         <div class="project-tags">${tagsHtml}</div>
         <div class="project-links">
-            <a href="${project.url}" target="_blank" rel="noopener noreferrer" class="project-link">View Project →</a>
+            ${project.links && project.links.length
+                ? project.links.map(link => `<a href="${link.url}" target="_blank" rel="noopener noreferrer" class="project-link">${link.label} →</a>`).join('')
+                : `<a href="${project.url}" target="_blank" rel="noopener noreferrer" class="project-link">View Project →</a>`}
             ${noteHtml}
         </div>
     `;
