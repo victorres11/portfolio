@@ -1,5 +1,14 @@
 [
   {
+    "id": "booth-ready",
+    "title": "Booth Ready",
+    "description": "Spotter boards built for the broadcast booth. Editable offense and defense cards for every team you're calling — team-true colors, season stats included, print-ready by Friday night.",
+    "longDescription": "A modern replacement for the hand-drawn spotter boards play-by-play commentators rely on every Saturday. Booth Ready lets broadcasters pull up any team, edit offense and defense cards with current rosters and season stats, and export tabloid-landscape PDFs ready to print and tape to the booth desk. Team-true colors, fast inline editing, and a print pipeline tuned for game day.",
+    "tags": ["Broadcast Tools", "Spotter Boards", "PDF Generation"],
+    "url": "https://rl-board.vercel.app/",
+    "images": ["images/booth-ready.png"]
+  },
+  {
     "id": "dossierbot",
     "title": "DossierBot",
     "description": "A professional briefing tool that helps sports broadcasters, coaches, and executives get up to speed on a person quickly.",
