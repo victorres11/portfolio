@@ -2,6 +2,7 @@
   {
     "id": "booth-ready",
     "title": "Booth Ready",
+    "logo": "images/logo-booth-ready.svg",
     "description": "Spotter boards built for the broadcast booth. Editable offense and defense cards for every team you're calling — team-true colors, season stats included, print-ready by Friday night.",
     "longDescription": "A modern replacement for the hand-drawn spotter boards play-by-play commentators rely on every Saturday. Booth Ready lets broadcasters pull up any team, edit offense and defense cards with current rosters and season stats, and export tabloid-landscape PDFs ready to print and tape to the booth desk. Team-true colors, fast inline editing, and a print pipeline tuned for game day.",
     "tags": ["Broadcast Tools", "Spotter Boards", "PDF Generation"],
@@ -11,6 +12,7 @@
   {
     "id": "dossierbot",
     "title": "DossierBot",
+    "logo": "images/logo-dossierbot.svg",
     "description": "A professional briefing tool that helps sports broadcasters, coaches, and executives get up to speed on a person quickly.",
     "longDescription": "An AI-powered research product that generates comprehensive dossiers on sports-world professionals. Surfaces recent public signals, career history, and contextual insights — giving broadcasters and front-office staff a structured, ready-to-use briefing before meetings, calls, or game broadcasts.",
     "badge": "BETA",
@@ -21,6 +23,7 @@
   {
     "id": "clipper",
     "title": "Clipper",
+    "logo": "images/logo-clipper.svg",
     "description": "A personalized sports news aggregator that replaces Google Alerts with curated topic feeds, clean reader mode, and AI-powered trending clusters.",
     "longDescription": "Create private topics with custom keyword lists (e.g., \"Big Ten Football\") and Clipper automatically fetches relevant articles and videos every 6 hours. Features include a clean, ad-free reader mode, AI-powered trending clusters that group related stories together, per-topic source blocking, and smart sport-context filtering to cut through noise. Designed for sports professionals who need to stay on top of their beat without the clutter.",
     "tags": ["AI", "News Aggregation", "Personalization"],

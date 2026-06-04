@@ -147,13 +147,17 @@ async function loadProjects() {
         container.innerHTML = projectsData.map((project, index) => {
             const tagsHtml = project.tags ? project.tags.map(tag => `<span class="tag">${tag}</span>`).join('') : '';
             const badgeHtml = project.badge ? ` <span class="badge badge-${project.badge.toLowerCase()}">${project.badge}</span>` : '';
+            const logoHtml = project.logo ? `<img src="${project.logo}" alt="" class="project-logo" aria-hidden="true">` : '';
 
             return `
                 <article class="project-card" data-project-index="${index}" role="button" tabindex="0"
                          aria-label="View details for ${project.title}"
                          style="transition-delay: ${index * 0.08}s">
                     <div class="project-content">
-                        <h3 class="project-title">${project.title}${badgeHtml}</h3>
+                        <div class="project-header">
+                            ${logoHtml}
+                            <h3 class="project-title">${project.title}${badgeHtml}</h3>
+                        </div>
                         <p class="project-description">${project.description}</p>
                         <div class="project-tags">${tagsHtml}</div>
                     </div>
