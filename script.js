@@ -171,10 +171,20 @@ async function loadProjects() {
             const badgeHtml = project.badge ? ` <span class="badge badge-${project.badge.toLowerCase()}">${project.badge}</span>` : '';
             const logoHtml = project.logo ? `<img src="${project.logo}" alt="" class="project-logo" aria-hidden="true">` : '';
 
+            let thumbHtml = '';
+            if (project.images && project.images.length) {
+                thumbHtml = `<div class="project-thumb"><img src="${project.images[0]}" alt="" loading="lazy" aria-hidden="true"></div>`;
+            } else if (project.video) {
+                thumbHtml = `<div class="project-thumb"><video src="${project.video}" muted loop playsinline autoplay aria-hidden="true"></video></div>`;
+            } else if (project.placeholder) {
+                thumbHtml = `<div class="project-thumb project-thumb--placeholder" aria-hidden="true"><span>${project.placeholder.icon}</span></div>`;
+            }
+
             return `
                 <article class="project-card" data-project-index="${index}" role="button" tabindex="0"
                          aria-label="View details for ${project.title}"
                          style="transition-delay: ${index * 0.08}s">
+                    ${thumbHtml}
                     <div class="project-content">
                         <div class="project-header">
                             ${logoHtml}
