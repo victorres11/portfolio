@@ -13,7 +13,7 @@
     --color-surface: #ffffff;
     --color-surface-strong: #ffffff;
     --color-text: #1c1917;
-    --color-text-muted: #a8a29e;
+    --color-text-muted: #767066;
     --color-text-secondary: #57534e;
     --color-accent: #7a2e2e;
     --color-accent-strong: #5e2222;
@@ -84,14 +84,30 @@ img {
 }
 
 .reveal {
-    opacity: 0;
-    transform: translateY(24px);
     transition: opacity 0.7s ease, transform 0.7s ease;
 }
 
 .reveal.visible {
     opacity: 1;
     transform: translateY(0);
+}
+
+/* Scroll-reveal hidden state applies ONLY when JS is active and motion is allowed.
+   Without JS, or under reduced motion, every element keeps its visible default —
+   content is never gated on a class-triggered transition. A load-time safety net
+   (script.js) reveals any straggler the IntersectionObserver never reached. */
+@media (prefers-reduced-motion: no-preference) {
+    .js .reveal:not(.visible),
+    .js .service-item:not(.visible),
+    .js .client-card:not(.visible) {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+
+    .js .project-card:not(.visible) {
+        opacity: 0;
+        transform: translateY(24px);
+    }
 }
 
 /* Navigation */
@@ -200,8 +216,10 @@ img {
 }
 
 .play-canvas {
-    position: fixed;
+    position: absolute;
     inset: 0;
+    width: 100%;
+    height: 100%;
     pointer-events: none;
     z-index: 0;
 }
@@ -353,7 +371,7 @@ img {
     font-family: var(--font-display);
     font-size: clamp(1.8rem, 2vw + 1rem, 2.4rem);
     font-weight: 700;
-    line-height: 1.2;
+    line-height: 1.3;
     color: var(--color-text);
     letter-spacing: -0.02em;
 }
@@ -392,6 +410,7 @@ img {
     line-height: 1.8;
     color: var(--color-text-secondary);
     margin-bottom: 1.25rem;
+    max-width: 40rem;
 }
 
 .about-details p:last-child {
@@ -411,7 +430,7 @@ img {
     line-height: 1.55;
     color: var(--color-text);
     margin-bottom: 3.5rem;
-    max-width: 52rem;
+    max-width: 46rem;
     letter-spacing: -0.005em;
 }
 
@@ -503,6 +522,7 @@ img {
     line-height: 1.75;
     color: var(--color-text-secondary);
     margin-bottom: 1rem;
+    max-width: 42rem;
 }
 
 .bg-desc em {
@@ -579,8 +599,6 @@ img {
     gap: 1.25rem;
     padding: 2rem 2rem 2rem 0;
     border-bottom: 1px solid var(--color-border);
-    opacity: 0;
-    transform: translateY(24px);
     transition: opacity 0.7s ease, transform 0.7s ease;
 }
 
@@ -596,17 +614,6 @@ img {
 .service-item.visible {
     opacity: 1;
     transform: translateY(0);
-}
-
-.service-num {
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--color-accent);
-    line-height: 1;
-    flex-shrink: 0;
-    padding-top: 0.15rem;
 }
 
 .service-body {
@@ -646,16 +653,69 @@ img {
     border: 1px solid var(--color-border);
     border-radius: var(--radius-card);
     overflow: hidden;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, opacity 0.6s ease;
     box-shadow: var(--shadow-card);
     cursor: pointer;
-    opacity: 0;
-    transform: translateY(24px);
 }
 
 .project-card.visible {
     opacity: 1;
     transform: translateY(0);
+}
+
+/* Loading skeleton — keeps the Projects section from reading as empty mid-fetch */
+.project-skeleton {
+    min-height: 184px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    animation: skeleton-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes skeleton-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* Visible fallback when projects.json can't load */
+.projects-fallback {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding: 2.5rem;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    max-width: 44rem;
+}
+
+.projects-fallback p {
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    font-size: 1rem;
+    margin: 0;
+}
+
+.projects-fallback a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.4rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    color: var(--color-accent);
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.projects-fallback a:hover {
+    border-color: var(--color-accent);
+    background: var(--accent-light);
 }
 
 .project-card.visible:hover {
@@ -724,7 +784,7 @@ img {
 }
 
 .tag:hover {
-    background: #d8e4f0;
+    background: #ecd9d9;
     transform: translateY(-1px);
 }
 
@@ -958,8 +1018,6 @@ img {
     display: flex;
     align-items: flex-start;
     gap: 1.25rem;
-    opacity: 0;
-    transform: translateY(16px);
     transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
@@ -1019,6 +1077,7 @@ img {
     font-style: italic;
     color: var(--color-text-secondary);
     line-height: 1.6;
+    max-width: 34rem;
 }
 
 /* CTA */
@@ -1322,6 +1381,15 @@ img {
 .floating-badge img {
     height: 22px;
     width: auto;
+}
+
+/* The badge is ~200px wide — over half a phone's width and it overlapped the CTA.
+   Hide it on small screens (this rule comes after the base so it wins); the footer
+   already carries the brand. */
+@media (max-width: 768px) {
+    .floating-badge {
+        display: none;
+    }
 }
 
 /* Reduced motion */

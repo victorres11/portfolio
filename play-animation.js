@@ -167,12 +167,13 @@
     var rafId;
 
     function resize() {
-      w = window.innerWidth;
-      h = window.innerHeight;
+      // Size to the canvas's own box (the hero), not the viewport, so the play
+      // diagram stays inside the hero and scrolls away instead of drifting over
+      // the content below. CSS keeps the element at 100% of the hero.
+      w = canvas.clientWidth || canvas.offsetWidth || window.innerWidth;
+      h = canvas.clientHeight || canvas.offsetHeight || window.innerHeight;
       canvas.width = w * dpr;
       canvas.height = h * dpr;
-      canvas.style.width = w + 'px';
-      canvas.style.height = h + 'px';
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 

@@ -126,12 +126,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Reduce motion preference
 if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    document.querySelectorAll('.reveal, .project-card, .client-card').forEach(item => {
+    document.querySelectorAll('.reveal, .project-card, .client-card, .service-item').forEach(item => {
         item.classList.add('visible');
         item.style.transition = 'none';
         item.style.transitionDelay = '0s';
     });
 }
+
+// Safety net: if the IntersectionObserver never fires for an element (hidden tab,
+// headless renderer, no scroll), reveal everything shortly after load so content can
+// never stay stuck in its hidden pre-animation state.
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        document.querySelectorAll('.reveal, .service-item, .project-card, .client-card')
+            .forEach(el => el.classList.add('visible'));
+    }, 1500);
+});
 
 // Load projects from JSON
 let projectsData = [];
@@ -140,10 +150,22 @@ async function loadProjects() {
     const container = document.getElementById('projects-container');
     if (!container) return;
 
+    // Loading state — skeleton cards so the section never reads as empty mid-fetch
+    container.setAttribute('aria-busy', 'true');
+    container.innerHTML = Array.from({ length: 6 }, () =>
+        '<div class="project-skeleton" aria-hidden="true"></div>'
+    ).join('');
+
     try {
         const response = await fetch('projects.json');
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
         projectsData = await response.json();
 
+        if (!Array.isArray(projectsData) || projectsData.length === 0) {
+            throw new Error('No projects returned');
+        }
+
+        container.removeAttribute('aria-busy');
         container.innerHTML = projectsData.map((project, index) => {
             const tagsHtml = project.tags ? project.tags.map(tag => `<span class="tag">${tag}</span>`).join('') : '';
             const badgeHtml = project.badge ? ` <span class="badge badge-${project.badge.toLowerCase()}">${project.badge}</span>` : '';
@@ -184,6 +206,13 @@ async function loadProjects() {
 
     } catch (error) {
         console.error('Failed to load projects:', error);
+        container.removeAttribute('aria-busy');
+        container.innerHTML = `
+            <div class="projects-fallback">
+                <p>Recent work isn't loading right now. The portfolio spans broadcast tools, scouting reports, and analytics dashboards for clients like the Mariners, Big Ten Network, and the White Sox.</p>
+                <a href="https://vtss-intake.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn-ghost">Ask me about recent work &#8599;</a>
+            </div>
+        `;
     }
 }
 
@@ -274,8 +303,29 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && !overlay.hasAttribute('hidden')) {
+        if (overlay.hasAttribute('hidden')) return;
+
+        if (e.key === 'Escape') {
             closeModal();
+            return;
+        }
+
+        // Focus trap: keep Tab/Shift+Tab cycling within the open dialog
+        if (e.key === 'Tab') {
+            const focusable = overlay.querySelectorAll(
+                'button, a[href], [tabindex]:not([tabindex="-1"])'
+            );
+            if (!focusable.length) return;
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+
+            if (e.shiftKey && document.activeElement === first) {
+                e.preventDefault();
+                last.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+                e.preventDefault();
+                first.focus();
+            }
         }
     });
 });

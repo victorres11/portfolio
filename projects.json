@@ -3,10 +3,14 @@
     "id": "booth-ready",
     "title": "Booth Ready",
     "logo": "images/logo-booth-ready.svg",
-    "description": "Spotter boards built for the broadcast booth. Editable offense and defense cards for every team you're calling — team-true colors, season stats included, print-ready by Friday night.",
+    "description": "Spotter boards built for the broadcast booth. Editable offense and defense cards for every team you're calling. Team-true colors, season stats included, print-ready by Friday night.",
     "longDescription": "A modern replacement for the hand-drawn spotter boards play-by-play commentators rely on every Saturday. Booth Ready lets broadcasters pull up any team, edit offense and defense cards with current rosters and season stats, and export tabloid-landscape PDFs ready to print and tape to the booth desk. Team-true colors, fast inline editing, and a print pipeline tuned for game day.",
     "tags": ["Broadcast Tools", "Spotter Boards", "PDF Generation"],
-    "url": "https://rl-board.vercel.app/",
+    "url": "https://boothready.vercel.app",
+    "links": [
+      { "label": "Product tour", "url": "https://share.victorres.xyz/boothready-demo-uqz9" },
+      { "label": "Open the app", "url": "https://boothready.vercel.app" }
+    ],
     "images": ["images/booth-ready.png"]
   },
   {
@@ -14,10 +18,14 @@
     "title": "DossierBot",
     "logo": "images/logo-dossierbot.svg",
     "description": "A professional briefing tool that helps sports broadcasters, coaches, and executives get up to speed on a person quickly.",
-    "longDescription": "An AI-powered research product that generates comprehensive dossiers on sports-world professionals. Surfaces recent public signals, career history, and contextual insights — giving broadcasters and front-office staff a structured, ready-to-use briefing before meetings, calls, or game broadcasts.",
+    "longDescription": "An AI-powered research product that generates comprehensive dossiers on sports-world professionals. Surfaces recent public signals, career history, and contextual insights, giving broadcasters and front-office staff a structured, ready-to-use briefing before meetings, calls, or game broadcasts.",
     "badge": "BETA",
     "tags": ["AI", "Research Tool", "Broadcast Prep"],
     "url": "https://dossier-web.onrender.com",
+    "links": [
+      { "label": "How it works", "url": "https://share.victorres.xyz/dossier-engine-m6fm" },
+      { "label": "Try the demo", "url": "https://dossier-web.onrender.com" }
+    ],
     "images": ["images/dossierbot.png"]
   },
   {
@@ -97,7 +105,7 @@
     "id": "cbb-data-generator",
     "title": "College Basketball Data Generator",
     "description": "Coalesces data from multiple sources to create customized reports for college basketball broadcasters.",
-    "longDescription": "A full self-service application that allows broadcasters to generate a data report for any NCAA team. Fetches from multiple data sources so users get all their data in one place—instead of clicking through 10+ different domains.",
+    "longDescription": "A full self-service application that allows broadcasters to generate a data report for any NCAA team. Fetches from multiple data sources so users get all their data in one place, instead of clicking through 10+ different domains.",
     "tags": ["Data Integration", "Sports Analytics", "Automation"],
     "url": "https://cbb-data-generator.onrender.com/",
     "images": ["images/bball-data-generator.gif"]
