@@ -55,10 +55,11 @@
     "longDescription": "Enter a player name to search web and news sources, extract relevant quotes, deduplicate repeated mentions, and produce a clean dossier with source links. Built for faster sports research and broadcast prep when you need what a player said, or what coaches and teammates have said about them.",
     "tags": ["Sports Research", "Quote Search", "Broadcast Prep"],
     "url": "https://web-rho-virid-56.vercel.app/",
-    "placeholder": {
-      "icon": "QS",
-      "text": "Source-backed quote dossiers"
-    }
+    "links": [
+      { "label": "Product tour", "url": "https://share.victorres.xyz/quote-sniffer-tour-e6i9" },
+      { "label": "Open the app", "url": "https://web-rho-virid-56.vercel.app/" }
+    ],
+    "images": ["images/quote-sniffer.png"]
   },
   {
     "id": "misery-index",
