@@ -26,7 +26,7 @@
       { "label": "How it works", "url": "https://share.victorres.xyz/dossier-engine-m6fm" },
       { "label": "Try the demo", "url": "https://dossier-web.onrender.com" }
     ],
-    "images": ["images/dossierbot.png"]
+    "images": ["images/dossierbot-dossier.jpg"]
   },
   {
     "id": "clipper",
