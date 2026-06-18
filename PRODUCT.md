@@ -12,7 +12,7 @@ Their context: a high-trust, low-volume evaluation. They aren't comparison-shopp
 
 ## Product Purpose
 
-A one-page portfolio that converts a warm referral into a started conversation. It exists to make Vic's pitch legible to people who can't evaluate code: that he embeds with a staff, finds the repetitive/slow/risky work, and ships the one tool that makes it go away. Success = a qualified referral lands, believes the track record (AdRoll, Datadog, startups) and the client roster (Mariners, Big Ten Network, White Sox, NBC), and clicks through to the intake form.
+A one-page portfolio that converts a warm referral into a started conversation. It exists to make Vic's pitch legible to people who can't evaluate code: that he embeds with a staff, finds the repetitive/slow/risky work, and ships the one tool that makes it go away. Success = a qualified referral lands, believes the track record (AdRoll, Datadog, startups) and the client roster (Mariners, Big Ten Network, a mid-market MLB franchise, NBC), and clicks through to the intake form.
 
 It is also a quiet proof-of-craft: the site itself should demonstrate the taste and rigor the service promises. The medium is part of the message.
 
