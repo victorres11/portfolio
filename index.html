@@ -55,9 +55,12 @@
 
     <link rel="stylesheet" href="styles.css">
 
+    <!-- Mark that JS is active so scroll-reveal can hide-then-animate. Without JS (or with
+         reduced motion) the content stays visible by default — it is never gated on a transition. -->
+    <script>document.documentElement.classList.add('js');</script>
+
 </head>
 <body>
-    <canvas class="play-canvas" aria-hidden="true"></canvas>
     <nav class="nav">
         <div class="nav-container">
             <a href="#" class="nav-logo"></a>
@@ -77,6 +80,7 @@
 
     <main>
         <section id="hero" class="hero">
+            <canvas class="play-canvas" aria-hidden="true"></canvas>
             <div class="container">
                 <div class="hero-content">
                     <div class="hero-text">
@@ -94,22 +98,21 @@
 
         <section id="about" class="about reveal">
             <div class="container">
-                <h2 class="section-title">About</h2>
                 <div class="about-grid">
                     <div class="about-statement">
                         <p>What would you do with...<br><span class="about-rotate-wrap"><span class="about-rotate" id="about-rotate"></span></span></p>
                     </div>
                     <div class="about-details">
                         <p>Every engagement starts the same way: I sit with your staff and ask what's repetitive, what's slow, and what's one mistake away from a bad day. Then I build the thing that makes it go away.</p>
-                        <p>Most of my clients aren't technical, and that's the point. They want someone they can trust to handle the software — without them having to think about databases, APIs, or deployment — so they can focus on the work that actually matters.</p>
-                        <p>Generic tools weren't built for your workflow. In the AI era, every staff deserves software that fits exactly how they operate — not the other way around.</p>
+                        <p>Most of my clients aren't technical, and that's the point. They want someone they can trust to handle the software, without having to think about databases, APIs, or deployment, so they can focus on the work that actually matters.</p>
+                        <p>Generic tools weren't built for your workflow. In the AI era, every staff deserves software that fits exactly how they operate, not the other way around.</p>
                     </div>
                 </div>
 
                 <div class="background">
-                    <p class="background-lead"><em>The scaffolding is easy. The architecture is hard.</em> AI can stand up a working prototype in an afternoon — but it can't tell you whether your data model survives the second use case, or whether three integrations will quietly corrupt each other under real load. That's still the same craft I came up doing — at internet scale, in production, on systems people actually depended on.</p>
+                    <p class="background-lead"><em>The scaffolding is easy. The architecture is hard.</em> AI can stand up a working prototype in an afternoon, but it can't tell you whether your data model survives the second use case, or whether three integrations will quietly corrupt each other under real load. That's still the same craft I came up doing — at internet scale, in production, on systems people actually depended on.</p>
 
-                    <p class="background-eyebrow">Track record</p>
+                    <h2 class="background-eyebrow">Track record</h2>
                     <div class="background-list">
                         <article class="bg-chapter">
                             <span class="bg-num">01</span>
@@ -132,7 +135,7 @@
                                     <img src="images/datadog-logo.svg" alt="Datadog" class="bg-mark">
                                     <span class="bg-role">Growth Engineering, pre-IPO</span>
                                 </h3>
-                                <p class="bg-desc">Wired the marketing stack — Segment, attribution, lifecycle tooling — into the product itself, so growth and product spoke the same language. Also partnered with the research org on whitepapers covering large-scale data processing on Spark, Luigi, and the warehouse.</p>
+                                <p class="bg-desc">Wired the marketing stack (Segment, attribution, lifecycle tooling) into the product itself, so growth and product spoke the same language. Also partnered with the research org on whitepapers covering large-scale data processing on Spark, Luigi, and the warehouse.</p>
                                 <ul class="bg-tags">
                                     <li>Python</li><li>Scala</li><li>Spark</li><li>Luigi</li><li>Segment</li><li>Snowflake</li><li>AWS</li>
                                 </ul>
@@ -146,7 +149,7 @@
                                     <span class="bg-mark-text">Various Startups</span>
                                     <span class="bg-role">Product Engineer &amp; PM</span>
                                 </h3>
-                                <p class="bg-desc">Several early-stage companies, wearing both hats. I know how to stand up a production system from scratch — the 0-to-1 work where there's no platform team to lean on, and the choices you make in week one decide what breaks in year two. My specialty inside that: the data and analytics stack that powers the product <em>and</em> the C-suite BI layer reading from it — one source of truth, two very different audiences.</p>
+                                <p class="bg-desc">Several early-stage companies, wearing both hats. I know how to stand up a production system from scratch: the 0-to-1 work where there's no platform team to lean on, and the choices you make in week one decide what breaks in year two. My specialty inside that: the data and analytics stack that powers the product <em>and</em> the C-suite BI layer reading from it — one source of truth, two very different audiences.</p>
                                 <ul class="bg-tags">
                                     <li>Snowflake</li><li>Segment</li><li>Looker</li><li>Python</li><li>AWS</li>
                                 </ul>
@@ -159,45 +162,39 @@
 
         <section id="services" class="services reveal">
             <div class="container">
-                <h2 class="section-title">Services</h2>
+                <h2 class="section-lead">Six ways to make the repetitive, slow, and risky work disappear.</h2>
                 <div class="services-grid">
                     <div class="service-item">
-                        <span class="service-num">01</span>
                         <div class="service-body">
                             <h3 class="service-name">Custom AI Assistants</h3>
-                            <p class="service-desc">Purpose-built bots for scouting, research, and broadcast prep — trained on your data.</p>
+                            <p class="service-desc">Purpose-built bots for scouting, research, and broadcast prep, trained on your data.</p>
                         </div>
                     </div>
                     <div class="service-item">
-                        <span class="service-num">02</span>
                         <div class="service-body">
                             <h3 class="service-name">AI Integration & Strategy</h3>
                             <p class="service-desc">Bring AI into your existing workflows without replacing what already works.</p>
                         </div>
                     </div>
                     <div class="service-item">
-                        <span class="service-num">03</span>
                         <div class="service-body">
                             <h3 class="service-name">Analytics Dashboards</h3>
-                            <p class="service-desc">Live dashboards that surface what matters — not generic BI templates.</p>
+                            <p class="service-desc">Live dashboards that surface what matters, not generic BI templates.</p>
                         </div>
                     </div>
                     <div class="service-item">
-                        <span class="service-num">04</span>
                         <div class="service-body">
                             <h3 class="service-name">Custom Reports & Metrics</h3>
-                            <p class="service-desc">Your data, your definitions — custom pipelines built on the tools you already use.</p>
+                            <p class="service-desc">Your data, your definitions. Custom pipelines built on the tools you already use.</p>
                         </div>
                     </div>
                     <div class="service-item">
-                        <span class="service-num">05</span>
                         <div class="service-body">
                             <h3 class="service-name">Workflow Automation</h3>
-                            <p class="service-desc">Automated pipelines that ingest, process, and publish — no manual steps.</p>
+                            <p class="service-desc">Automated pipelines that ingest, process, and publish. No manual steps.</p>
                         </div>
                     </div>
                     <div class="service-item">
-                        <span class="service-num">06</span>
                         <div class="service-body">
                             <h3 class="service-name">News & Content Monitoring</h3>
                             <p class="service-desc">Curated feeds that track your beat so you don't have to.</p>
@@ -209,7 +206,7 @@
 
         <section id="projects" class="projects reveal">
             <div class="container">
-                <h2 class="section-title">Projects</h2>
+                <h2 class="section-lead">Tools built for real broadcast booths and front offices.</h2>
                 <div class="projects-grid" id="projects-container">
                     <!-- Projects loaded from projects.json -->
                 </div>
@@ -219,7 +216,16 @@
 
         <section id="clients" class="clients reveal">
             <div class="container">
-                <h2 class="section-title">Clients</h2>
+                <h2 class="section-lead">The people who trust me with game day.</h2>
+
+                <figure class="testimonial">
+                    <blockquote class="testimonial-quote">There's not a day that goes by where I don't think <em>“my new scorebook is saving me today.”</em> Has completely changed my life.</blockquote>
+                    <figcaption class="testimonial-cite">
+                        <span class="testimonial-name">Aaron Goldsmith</span>
+                        <span class="testimonial-role">Voice of the Seattle Mariners</span>
+                    </figcaption>
+                </figure>
+
                 <div class="clients-grid">
                     <div class="client-card">
 
@@ -234,20 +240,6 @@
                                 </div>
                                 <p class="client-projects">Game Prep · Booth Materials</p>
                             </div>
-                        </div>
-                    </div>
-                    <div class="client-card">
-                        <div class="client-info">
-                            <span class="client-name">Aaron Goldsmith</span>
-                            <p class="client-summary">Voice of the Seattle Mariners.</p>
-                            <div class="client-meta">
-                                <div class="client-tags">
-                                    <span class="tag">Baseball</span>
-                                    <span class="tag">Play-by-Play</span>
-                                </div>
-                                <p class="client-projects">Booth Materials · Ongoing Bespoke Reports</p>
-                            </div>
-                            <blockquote class="client-quote">“There's not a day that goes by where I think ‘my new scorebook is saving me today.’ Has completely changed my life.”</blockquote>
                         </div>
                     </div>
                     <div class="client-card">
@@ -309,7 +301,7 @@
             <div class="container">
                 <div class="cta-content">
                     <h2 class="cta-headline">Interested in working together?</h2>
-                    <p class="cta-subtext">Whether you have a project in mind or just want to ask a few questions — I'd love to hear from you.</p>
+                    <p class="cta-subtext">Whether you have a project in mind or just want to ask a few questions, I'd love to hear from you.</p>
                     <a href="https://vtss-intake.vercel.app/" target="_blank" rel="noopener noreferrer" class="cta-button">Get in Touch →</a>
                 </div>
             </div>
@@ -319,7 +311,6 @@
     <footer class="footer">
         <div class="container">
             <p>© 2026 VT Sports Solutions</p>
-            <div class="social-links"></div>
         </div>
     </footer>
 

@@ -167,12 +167,13 @@
     var rafId;
 
     function resize() {
-      w = window.innerWidth;
-      h = window.innerHeight;
+      // Size to the canvas's own box (the hero), not the viewport, so the play
+      // diagram stays inside the hero and scrolls away instead of drifting over
+      // the content below. CSS keeps the element at 100% of the hero.
+      w = canvas.clientWidth || canvas.offsetWidth || window.innerWidth;
+      h = canvas.clientHeight || canvas.offsetHeight || window.innerHeight;
       canvas.width = w * dpr;
       canvas.height = h * dpr;
-      canvas.style.width = w + 'px';
-      canvas.style.height = h + 'px';
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
@@ -182,8 +183,10 @@
       var cx, cy, attempts = 0;
 
       do {
-        cx = w * 0.15 + Math.random() * w * 0.7;
-        cy = h * 0.35 + Math.random() * h * 0.35;
+        // Bias the formation toward the open right side of the hero so it reads as a
+        // signature beside the left-aligned headline, not noise on top of the text.
+        cx = w * 0.5 + Math.random() * w * 0.42;
+        cy = h * 0.32 + Math.random() * h * 0.4;
         attempts++;
       } while (
         attempts < 30 &&
@@ -333,11 +336,11 @@
 
         var alpha;
         if (age < 800) {
-          alpha = (age / 800) * 0.35;
+          alpha = (age / 800) * 0.42;
         } else if (age > life - 1500) {
-          alpha = Math.max(0, ((life - age) / 1500) * 0.35);
+          alpha = Math.max(0, ((life - age) / 1500) * 0.42);
         } else {
-          alpha = 0.35;
+          alpha = 0.42;
         }
 
         if (age > life) {
