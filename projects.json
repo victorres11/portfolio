@@ -29,6 +29,15 @@
     "images": ["images/dossierbot-dossier.jpg"]
   },
   {
+    "id": "arm-tax",
+    "title": "The Arm Tax",
+    "description": "A bullpen decision tool that quantifies pitcher fatigue as a run-value penalty, so a tired elite reliever can be compared head-to-head with a fresh mid-tier arm.",
+    "longDescription": "MLB matchup grids rank relievers without accounting for fatigue. The Arm Tax expresses fatigue in run-value units that align with existing projection systems, bridging workload tracking and in-game decisions. It analyzes 11,000+ pitches, factors in game pitches, warm-up counts, back-to-back usage, and recovery curves, and produces nightly briefing cards with adjusted bullpen rankings. It calibrates to each pitcher's sensitivity rather than league-wide rules, surfacing per-arm fatigue 'fingerprints' — some pitchers show spin degradation before velocity loss.",
+    "tags": ["MLB", "Bullpen Strategy", "Decision Support"],
+    "url": "https://share.victorres.xyz/arm-tax-7y25",
+    "images": ["images/arm-tax.png"]
+  },
+  {
     "id": "clipper",
     "title": "Clipper",
     "logo": "images/logo-clipper.svg",

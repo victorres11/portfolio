@@ -219,7 +219,7 @@ async function loadProjects() {
         container.removeAttribute('aria-busy');
         container.innerHTML = `
             <div class="projects-fallback">
-                <p>Recent work isn't loading right now. The portfolio spans broadcast tools, scouting reports, and analytics dashboards for clients like the Mariners, Big Ten Network, and the White Sox.</p>
+                <p>Recent work isn't loading right now. The portfolio spans broadcast tools, scouting reports, and analytics dashboards for clients like the Mariners, Big Ten Network, and a mid-market MLB franchise.</p>
                 <a href="https://vtss-intake.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn-ghost">Ask me about recent work &#8599;</a>
             </div>
         `;
