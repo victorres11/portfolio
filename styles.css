@@ -286,6 +286,7 @@ img {
 
 .hero-cta {
     display: flex;
+    flex-wrap: wrap;
     gap: 1rem;
     margin-top: 0.5rem;
 }
@@ -1215,6 +1216,39 @@ img {
     background: var(--accent-light);
     transform: translateY(-1px);
     box-shadow: var(--shadow-lift);
+}
+
+/* Pair the primary "Get in Touch" with the suite link on the oxblood band. */
+.cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Secondary, outline-on-dark button so it reads as a companion to the solid
+   white primary rather than competing with it. */
+.cta-button-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.85rem;
+    background: transparent;
+    color: #ffffff;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: var(--radius-card);
+    transition: var(--transition);
+    letter-spacing: 0.01em;
+}
+
+.cta-button-ghost:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: #ffffff;
+    transform: translateY(-1px);
 }
 
 /* Footer */
