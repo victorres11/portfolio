@@ -325,6 +325,50 @@
         </div>
     </div>
 
+    <div class="request-modal-overlay" id="request-modal" role="dialog" aria-modal="true" aria-labelledby="request-modal-title" hidden>
+        <div class="request-modal">
+            <button class="request-modal-close" type="button" aria-label="Close request form">&times;</button>
+            <div class="request-modal-body">
+                <p class="request-eyebrow">Project request</p>
+                <h3 class="request-modal-title" id="request-modal-title">Request something similar</h3>
+                <p class="request-modal-intro">Interested in <strong id="request-project-name"></strong>? Leave your email or phone number and I’ll follow up.</p>
+
+                <form class="request-form" id="request-form" novalidate>
+                    <div class="request-contact-grid">
+                        <div class="request-field">
+                            <label for="request-email">Email</label>
+                            <input id="request-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" aria-describedby="request-contact-hint">
+                        </div>
+                        <div class="request-field">
+                            <label for="request-phone">Phone</label>
+                            <input id="request-phone" name="phone" type="tel" autocomplete="tel" placeholder="(555) 123-4567" aria-describedby="request-contact-hint">
+                        </div>
+                    </div>
+                    <p class="request-contact-hint" id="request-contact-hint">Enter at least one way to reach you.</p>
+
+                    <div class="request-field">
+                        <label for="request-details">Additional info <span>(optional)</span></label>
+                        <textarea id="request-details" name="details" rows="4" placeholder="Anything else I should know?"></textarea>
+                    </div>
+
+                    <div class="request-honeypot" aria-hidden="true">
+                        <label for="request-company">Company</label>
+                        <input id="request-company" name="company" type="text" tabindex="-1" autocomplete="off">
+                    </div>
+
+                    <p class="request-form-message" id="request-form-message" role="alert" hidden></p>
+                    <button class="request-submit" type="submit">Send request &rarr;</button>
+                </form>
+
+                <div class="request-success" id="request-success" role="status" hidden>
+                    <h4>Request sent.</h4>
+                    <p>Thanks — I’ll be in touch soon.</p>
+                    <button class="request-done" type="button">Done</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Floating Badge -->
     <div class="floating-badge">
         <span>made with ❤️ by</span>

@@ -228,6 +228,9 @@ async function loadProjects() {
 
 // Modal logic
 let previouslyFocused = null;
+let requestPreviouslyFocused = null;
+let activeRequestProject = null;
+let requestSubmissionId = 0;
 
 function openModal(index) {
     const project = projectsData[index];
@@ -270,9 +273,14 @@ function openModal(index) {
             ${project.links && project.links.length
                 ? project.links.map(link => `<a href="${link.url}" target="_blank" rel="noopener noreferrer" class="project-link">${link.label} →</a>`).join('')
                 : `<a href="${project.url}" target="_blank" rel="noopener noreferrer" class="project-link">View Project →</a>`}
+            <button type="button" class="project-link request-project-link">Request something similar →</button>
             ${noteHtml}
         </div>
     `;
+
+    modalBody.querySelector('.request-project-link').addEventListener('click', () => {
+        openRequestModal(project);
+    });
 
     previouslyFocused = document.activeElement;
     overlay.removeAttribute('hidden');
@@ -301,18 +309,221 @@ function closeModal() {
     }
 }
 
+function openRequestModal(project) {
+    const overlay = document.getElementById('request-modal');
+    const projectOverlay = document.getElementById('project-modal');
+    const form = document.getElementById('request-form');
+    const success = document.getElementById('request-success');
+    const message = document.getElementById('request-form-message');
+    const submitButton = form.querySelector('.request-submit');
+
+    requestSubmissionId += 1;
+    activeRequestProject = project;
+    requestPreviouslyFocused = document.activeElement;
+    document.getElementById('request-project-name').textContent = project.title;
+    form.reset();
+    document.getElementById('request-email').setCustomValidity('');
+    document.getElementById('request-phone').setCustomValidity('');
+    form.removeAttribute('hidden');
+    success.setAttribute('hidden', '');
+    message.setAttribute('hidden', '');
+    message.textContent = '';
+    submitButton.disabled = false;
+    submitButton.textContent = 'Send request →';
+    projectOverlay.setAttribute('aria-hidden', 'true');
+    projectOverlay.inert = true;
+
+    overlay.removeAttribute('hidden');
+    overlay.offsetHeight;
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('request-email').focus();
+}
+
+function closeRequestModal() {
+    const overlay = document.getElementById('request-modal');
+    const projectOverlay = document.getElementById('project-modal');
+    requestSubmissionId += 1;
+    overlay.classList.remove('active');
+
+    overlay.addEventListener('transitionend', function handler(e) {
+        if (e.target !== overlay) return;
+        overlay.setAttribute('hidden', '');
+        overlay.removeEventListener('transitionend', handler);
+    });
+
+    projectOverlay.removeAttribute('aria-hidden');
+    projectOverlay.inert = false;
+
+    if (projectOverlay.hasAttribute('hidden')) {
+        document.body.style.overflow = '';
+    }
+
+    if (requestPreviouslyFocused && document.body.contains(requestPreviouslyFocused)) {
+        requestPreviouslyFocused.focus();
+    }
+    requestPreviouslyFocused = null;
+    activeRequestProject = null;
+}
+
+function trapModalFocus(event, overlay) {
+    const focusable = overlay.querySelectorAll(
+        'button:not([disabled]), a[href], input:not([disabled]):not([tabindex="-1"]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    );
+    if (!focusable.length) return;
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+    }
+}
+
+async function submitProjectRequest(event) {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    const emailInput = document.getElementById('request-email');
+    const phoneInput = document.getElementById('request-phone');
+    const detailsInput = document.getElementById('request-details');
+    const honeypot = document.getElementById('request-company');
+    const message = document.getElementById('request-form-message');
+    const submitButton = form.querySelector('.request-submit');
+    const email = emailInput.value.trim();
+    const phone = phoneInput.value.trim();
+
+    message.setAttribute('hidden', '');
+    message.textContent = '';
+    emailInput.setCustomValidity('');
+    phoneInput.setCustomValidity('');
+
+    if (!email && !phone) {
+        const validationMessage = 'Enter an email address or phone number.';
+        emailInput.setCustomValidity(validationMessage);
+        message.textContent = validationMessage;
+        message.removeAttribute('hidden');
+        emailInput.focus();
+        return;
+    }
+
+    if (email && !emailInput.validity.valid) {
+        const validationMessage = 'Enter a valid email address.';
+        emailInput.setCustomValidity(validationMessage);
+        message.textContent = validationMessage;
+        message.removeAttribute('hidden');
+        emailInput.focus();
+        return;
+    }
+
+    if (phone && phone.replace(/\D/g, '').length < 7) {
+        const validationMessage = 'Enter a valid phone number.';
+        phoneInput.setCustomValidity(validationMessage);
+        message.textContent = validationMessage;
+        message.removeAttribute('hidden');
+        phoneInput.focus();
+        return;
+    }
+
+    if (honeypot.value) return;
+
+    const submissionId = ++requestSubmissionId;
+    submitButton.disabled = true;
+    submitButton.textContent = 'Sending…';
+
+    try {
+        const payload = {
+            _subject: `Portfolio request: ${activeRequestProject?.title || 'Project inquiry'}`,
+            _template: 'table',
+            _captcha: 'false',
+            project: activeRequestProject?.title || 'Project inquiry',
+            phone: phone || 'Not provided',
+            additional_info: detailsInput.value.trim() || 'Not provided',
+            page: window.location.href
+        };
+
+        if (email) {
+            payload.email = email;
+        } else {
+            payload.contact_email = 'Not provided';
+        }
+
+        const response = await fetch('https://formsubmit.co/ajax/victorres11@gmail.com', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+        if (!response.ok || result.success === false || result.success === 'false') {
+            throw new Error(result.message || 'Request submission failed.');
+        }
+
+        if (submissionId === requestSubmissionId) {
+            form.setAttribute('hidden', '');
+            document.getElementById('request-success').removeAttribute('hidden');
+            document.querySelector('.request-done').focus();
+        }
+    } catch (error) {
+        console.error('Failed to submit project request:', error);
+        if (submissionId === requestSubmissionId) {
+            message.textContent = 'I couldn’t send that request. Please try again.';
+            message.removeAttribute('hidden');
+        }
+    } finally {
+        if (submissionId === requestSubmissionId) {
+            submitButton.disabled = false;
+            submitButton.textContent = 'Send request →';
+        }
+    }
+}
+
 // Modal event listeners
 document.addEventListener('DOMContentLoaded', () => {
     const overlay = document.getElementById('project-modal');
-    if (!overlay) return;
+    const requestOverlay = document.getElementById('request-modal');
+    if (!overlay || !requestOverlay) return;
 
     overlay.querySelector('.modal-close').addEventListener('click', closeModal);
+    requestOverlay.querySelector('.request-modal-close').addEventListener('click', closeRequestModal);
+    requestOverlay.querySelector('.request-done').addEventListener('click', closeRequestModal);
+    document.getElementById('request-form').addEventListener('submit', submitProjectRequest);
+
+    ['request-email', 'request-phone'].forEach(id => {
+        document.getElementById(id).addEventListener('input', () => {
+            document.getElementById('request-email').setCustomValidity('');
+            document.getElementById('request-phone').setCustomValidity('');
+            const message = document.getElementById('request-form-message');
+            message.setAttribute('hidden', '');
+            message.textContent = '';
+        });
+    });
 
     overlay.addEventListener('click', (e) => {
         if (e.target === overlay) closeModal();
     });
 
+    requestOverlay.addEventListener('click', (e) => {
+        if (e.target === requestOverlay) closeRequestModal();
+    });
+
     document.addEventListener('keydown', (e) => {
+        if (!requestOverlay.hasAttribute('hidden')) {
+            if (e.key === 'Escape') {
+                closeRequestModal();
+            } else if (e.key === 'Tab') {
+                trapModalFocus(e, requestOverlay);
+            }
+            return;
+        }
+
         if (overlay.hasAttribute('hidden')) return;
 
         if (e.key === 'Escape') {
@@ -320,22 +531,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Focus trap: keep Tab/Shift+Tab cycling within the open dialog
         if (e.key === 'Tab') {
-            const focusable = overlay.querySelectorAll(
-                'button, a[href], [tabindex]:not([tabindex="-1"])'
-            );
-            if (!focusable.length) return;
-            const first = focusable[0];
-            const last = focusable[focusable.length - 1];
-
-            if (e.shiftKey && document.activeElement === first) {
-                e.preventDefault();
-                last.focus();
-            } else if (!e.shiftKey && document.activeElement === last) {
-                e.preventDefault();
-                first.focus();
-            }
+            trapModalFocus(e, overlay);
         }
     });
 });
