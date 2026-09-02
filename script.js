@@ -181,17 +181,27 @@ async function loadProjects() {
             }
 
             return `
-                <article class="project-card" data-project-index="${index}" role="button" tabindex="0"
-                         aria-label="View details for ${project.title}"
+                <article class="project-card" data-project-index="${index}"
                          style="transition-delay: ${index * 0.08}s">
-                    ${thumbHtml}
-                    <div class="project-content">
-                        <div class="project-header">
-                            ${logoHtml}
-                            <h3 class="project-title">${project.title}${badgeHtml}</h3>
+                    <div class="project-card-details" role="button" tabindex="0"
+                         aria-label="View details for ${project.title}">
+                        ${thumbHtml}
+                        <div class="project-content">
+                            <div class="project-header">
+                                ${logoHtml}
+                                <h3 class="project-title">${project.title}${badgeHtml}</h3>
+                            </div>
+                            <p class="project-description">${project.description}</p>
+                            <div class="project-tags">${tagsHtml}</div>
                         </div>
-                        <p class="project-description">${project.description}</p>
-                        <div class="project-tags">${tagsHtml}</div>
+                    </div>
+                    <div class="project-card-actions">
+                        <button type="button" class="project-card-request"
+                                aria-label="Request a project similar to ${project.title}">
+                            <span class="project-card-request-icon" aria-hidden="true">+</span>
+                            <span>Request similar</span>
+                            <span class="project-card-request-arrow" aria-hidden="true">→</span>
+                        </button>
                     </div>
                 </article>
             `;
@@ -203,15 +213,20 @@ async function loadProjects() {
             revealObserver.observe(item);
         });
 
-        // Add click and keyboard handlers for modal
+        // Keep project details and project requests as separate, accessible actions.
         container.querySelectorAll('.project-card').forEach(card => {
-            card.addEventListener('click', () => openModal(Number(card.dataset.projectIndex)));
-            card.addEventListener('keydown', (e) => {
+            const projectIndex = Number(card.dataset.projectIndex);
+            const details = card.querySelector('.project-card-details');
+            const requestButton = card.querySelector('.project-card-request');
+
+            details.addEventListener('click', () => openModal(projectIndex));
+            details.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
-                    openModal(Number(card.dataset.projectIndex));
+                    openModal(projectIndex);
                 }
             });
+            requestButton.addEventListener('click', () => openRequestModal(projectsData[projectIndex]));
         });
 
     } catch (error) {
