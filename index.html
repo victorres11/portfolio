@@ -3,57 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="description" content="VT Sports Solutions - Custom analytics, apps, and automated workflows for sports professionals. Built by Vic Torres.">
-    <meta name="theme-color" content="#fafaf9">
-    <title>Vic Torres - Sports Analytics Engineer | VT Sports Solutions</title>
+    <meta name="description" content="VT Sports Solutions - Custom analytics, apps, and automated workflows for sports professionals.">
+    <meta name="theme-color" content="#f1efe7">
+    <title>VT Sports Solutions | Software & Sports Analytics</title>
     <link rel="canonical" href="https://victorres.xyz/">
 
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://victorres.xyz/">
-    <meta property="og:title" content="Vic Torres - Sports Analytics Engineer | VT Sports Solutions">
-    <meta property="og:description" content="VT Sports Solutions - Custom analytics, apps, and automated workflows for sports professionals. Built by Vic Torres.">
+    <meta property="og:title" content="VT Sports Solutions | Software & Sports Analytics">
+    <meta property="og:description" content="VT Sports Solutions - Custom analytics, apps, and automated workflows for sports professionals.">
     <meta property="og:image" content="https://victorres.xyz/images/vt-logo-full.png">
     <meta property="og:site_name" content="VT Sports Solutions">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Vic Torres - Sports Analytics Engineer | VT Sports Solutions">
+    <meta name="twitter:title" content="VT Sports Solutions | Software & Sports Analytics">
     <meta name="twitter:description" content="VT Sports Solutions - Custom analytics, apps, and automated workflows for sports professionals.">
     <meta name="twitter:image" content="https://victorres.xyz/images/vt-logo-full.png">
 
     <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
     {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "Person",
-          "@id": "https://victorres.xyz/#person",
-          "name": "Vic Torres",
-          "alternateName": "Victor Torres",
-          "url": "https://victorres.xyz/",
-          "jobTitle": "Sports Analytics Engineer",
-          "worksFor": { "@id": "https://victorres.xyz/#org" }
-        },
-        {
-          "@type": "Organization",
-          "@id": "https://victorres.xyz/#org",
-          "name": "VT Sports Solutions",
-          "alternateName": "VTSS",
-          "url": "https://victorres.xyz/",
-          "logo": "https://victorres.xyz/images/vt-logo-full.png",
-          "founder": { "@id": "https://victorres.xyz/#person" },
-          "description": "Custom analytics, apps, and automated workflows for sports professionals."
-        },
-        {
-          "@type": "WebSite",
-          "url": "https://victorres.xyz/",
-          "name": "VT Sports Solutions",
-          "publisher": { "@id": "https://victorres.xyz/#org" }
-        }
-      ]
+      "@type": "Organization",
+      "@id": "https://victorres.xyz/#org",
+      "name": "VT Sports Solutions",
+      "alternateName": "VTSS",
+      "url": "https://victorres.xyz/",
+      "logo": "https://victorres.xyz/images/vt-logo-full.png",
+      "description": "Custom analytics, apps, and automated workflows for sports professionals."
+    },
+    {
+      "@type": "WebSite",
+      "url": "https://victorres.xyz/",
+      "name": "VT Sports Solutions",
+      "publisher": {
+        "@id": "https://victorres.xyz/#org"
+      }
     }
+  ]
+}
     </script>
 
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="coordinator.css">
 
     <!-- Mark that JS is active so scroll-reveal can hide-then-animate. Without JS (or with
          reduced motion) the content stays visible by default — it is never gated on a transition. -->
@@ -63,13 +56,14 @@
 <body>
     <nav class="nav">
         <div class="nav-container">
-            <a href="#" class="nav-logo"></a>
+            <a href="#hero" class="nav-logo" aria-label="VT Sports Solutions home"><span class="brand-mark">VT<span>↗</span></span><span class="brand-name">VT SPORTS<small>SOLUTIONS</small></span></a>
             <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
             <ul class="nav-menu">
+                <li><a href="#coaching" class="nav-link">Coaching tools</a></li>
                 <li><a href="#about" class="nav-link">About</a></li>
                 <li><a href="#services" class="nav-link">Services</a></li>
                 <li><a href="#projects" class="nav-link">Projects</a></li>
@@ -79,20 +73,72 @@
     </nav>
 
     <main>
-        <section id="hero" class="hero">
-            <canvas class="play-canvas" aria-hidden="true"></canvas>
-            <div class="container">
-                <div class="hero-content">
-                    <div class="hero-text">
-                        <p class="hero-tagline">VT Sports Solutions &middot; Software Engineering & AI Services</p>
-                        <h1 class="hero-headline">Software for sports <em>professionals,</em> built one staff at a time.</h1>
-                        <p class="hero-subheadline">I embed with broadcasters, coaches, and analysts and ship the tool that <em>actually saves the five hours</em> nobody else will build.</p>
-                        <div class="hero-cta">
-                            <a href="https://vtss-intake.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn-primary">Start a project &#8599;</a>
-                            <a href="#projects" class="btn-ghost">See recent work</a>
-                            <a href="https://share.victorres.xyz/research-suite-vppn" target="_blank" rel="noopener noreferrer" class="btn-ghost">Broadcaster Research Suite &#8599;</a>
+        <section id="hero" class="desk-hero">
+            <div class="desk-topline"><span>IN GOOD COMPANY. IN THE GAME.</span><span>SOFTWARE & ANALYTICS · VT SPORTS SOLUTIONS</span></div>
+            <div class="desk-layout">
+                <div class="desk-intro">
+                    <p class="desk-eyebrow"><span></span> THE STAFF’S DESK</p>
+                    <h1>Built for<br>the way your<br> <em>staff works.</em></h1>
+                    <p class="desk-description">Software for the people behind the game. Find your next coach. See the game more clearly. Get your time back.</p>
+                    <a class="desk-cta" href="https://vtss-intake.vercel.app/" target="_blank" rel="noopener noreferrer">Let’s build something <span>↗</span></a>
+                    <a class="desk-work-link" href="#coaching">Explore the work <span>↓</span></a>
+                    <p class="desk-handnote">A little less busywork.<br>A little more ball.</p>
+                </div>
+                <div class="workbench">
+                    <div class="binder-tabs" role="tablist" aria-label="Explore the coaching tools">
+                        <button id="tab-calls" role="tab" aria-controls="desk-panel" aria-selected="true" data-desk="calls">01 <span>Call sheet</span></button>
+                        <button id="tab-directory" role="tab" aria-controls="desk-panel" aria-selected="false" tabindex="-1" data-desk="directory">02 <span>Staff directory</span></button>
+                        <button id="tab-bullpen" role="tab" aria-controls="desk-panel" aria-selected="false" tabindex="-1" data-desk="bullpen">03 <span>Bullpen board</span></button>
+                    </div>
+                    <div class="binder-shell">
+                        <div class="binder-rings" aria-hidden="true"><i></i><i></i><i></i></div>
+                        <div id="desk-panel" role="tabpanel" aria-labelledby="tab-calls" tabindex="0">
+                            <div class="desk-loading">SAMPLE CALL SHEET<br><strong>Your next call, ready.</strong><p>An interactive football call sheet with fictional plays and situations.</p><a href="#coaching">Explore coaching tools ↓</a></div>
                         </div>
                     </div>
+                    <div class="desk-under"><span>WORKING PREVIEWS / SAMPLE CONTENT</span><span>Pick a tab. Take a look inside. ↗</span></div>
+                    <div class="desk-pencil" aria-hidden="true"></div>
+                </div>
+            </div>
+            <div class="desk-footer"><span>BUILT WITH STAFFS. BUILT FOR GAME DAY.</span><a href="#coaching">OPEN THE PLAYBOOK <span>↓</span></a><span>EST. IN THE DETAILS.</span></div>
+        </section>
+        <section class="trust-strip" aria-label="Client testimonial">
+            <p>“My new scorebook is <em>saving me today.</em>”</p>
+            <span><strong>Aaron Goldsmith</strong>Voice of the Seattle Mariners</span>
+            <a href="#clients">The people behind the work ↗</a>
+        </section>
+        <section id="coaching" class="coaching-section">
+            <div class="container">
+                <div class="coaching-heading"><div><p class="desk-eyebrow">01 / THE COACHING TOOLKIT</p><h2>More time for<br><em>the actual coaching.</em></h2></div><p>Tools shaped around how a staff prepares,<br>finds people, and calls a game.</p></div>
+                <div class="coaching-features">
+                    <article class="coaching-feature arm-feature">
+                        <div class="feature-art bullpen-art" aria-hidden="true">
+                            <div class="bullpen-report">
+                                <small>BULLPEN BRIEFING / THE ARM TAX</small>
+                                <h3>The best arm.<br><em>For tonight.</em></h3>
+                                <div class="report-ranking"><span>01</span><strong>THE FRESH ARM</strong><span>↗</span></div>
+                                <div class="report-ranking"><span>02</span><strong>THE WORKED ARM</strong><span>↘</span></div>
+                                <p>ABILITY + WORKLOAD = A CLEARER PICTURE</p>
+                            </div>
+                            <span class="art-number">01</span>
+                        </div>
+                        <div class="feature-copy"><p class="desk-eyebrow">BASEBALL / DECISION SUPPORT</p><h3>The Arm Tax</h3><p>A bullpen decision tool that puts pitcher fatigue in run-value terms. Compare a tired elite reliever with a fresh arm, with recent workload in the picture.</p><button class="feature-link" data-open-desk="bullpen">Explore the sample bullpen board <span>↗</span></button><a class="feature-link" href="https://share.victorres.xyz/arm-tax-7y25" target="_blank" rel="noopener noreferrer">Read about The Arm Tax <span>↗</span></a></div>
+                    </article>
+                    <article class="coaching-feature avenue-feature">
+                        <div class="feature-art directory-art" aria-hidden="true"><div class="directory-folder"><small>PEOPLE MAKE THE PROGRAM.</small><h3 class="avenue-wordmark">Avenue <em>1</em></h3><div class="folder-line"></div><p>COACHING INTELLIGENCE</p><span class="folder-label">STAFF DIRECTORY ↗</span></div><span class="art-number">02</span></div>
+                        <div class="feature-copy"><p class="desk-eyebrow">COACHING & PEOPLE</p><h3>Avenue 1</h3><p>Coaching intelligence that connects the full story: career history, coaching philosophy, and the relationships behind a staff. Built for the people finding their next coach.</p><button class="feature-link" data-open-desk="directory">Explore the interactive directory <span>↗</span></button><a class="feature-link" href="https://avenue-1.com/" target="_blank" rel="noopener noreferrer">Visit Avenue 1 <span>↗</span></a></div>
+                    </article>
+                </div>
+                <p class="coaching-footnote">A first look at the coaching work. Interactive previews above use illustrative content.</p>
+            </div>
+        </section>
+
+        <section id="projects" class="projects reveal">
+            <div class="container">
+                <p class="desk-eyebrow">02 / MORE FROM THE WORKBENCH</p>
+                <h2 class="section-lead">From the sideline to the broadcast booth.</h2>
+                <div class="projects-grid" id="projects-container">
+                    <!-- Projects loaded from projects.json -->
                 </div>
             </div>
         </section>
@@ -201,16 +247,6 @@
                             <p class="service-desc">Curated feeds that track your beat so you don't have to.</p>
                         </div>
                     </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="projects" class="projects reveal">
-            <div class="container">
-                <h2 class="section-lead">Tools built for real broadcast booths and front offices.</h2>
-                <div class="projects-grid" id="projects-container">
-                    <!-- Projects loaded from projects.json -->
-                </div>
                 </div>
             </div>
         </section>
@@ -375,7 +411,7 @@
         <img src="images/vt-logo-text.png" alt="VT Sports Solutions">
     </div>
 
-    <script src="play-animation.js"></script>
+    <script src="coordinator.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
